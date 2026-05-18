@@ -1,0 +1,32 @@
+{%- comment -%}
+  Isaboko top bar — static centered banner.
+  Replaces Dawn's announcement-bar in sections/header-group.json.
+  Visual styles live in assets/isaboko.css under "§6 TOP BAR".
+
+  Note: DESIGN_SPEC.md §6 specifies a scrolling ticker. The user overrode that
+  on 2026-05-18 — single static centered line instead. Don't reintroduce the
+  marquee without checking.
+{%- endcomment -%}
+
+<div class="isaboko-topbar" role="region" aria-label="Promotional banner">
+  <span class="isaboko-topbar__text">{{ section.settings.ticker_text }}</span>
+</div>
+
+{% schema %}
+{
+  "name": "Top bar (Isaboko)",
+  "settings": [
+    {
+      "type": "text",
+      "id": "ticker_text",
+      "label": "Banner text",
+      "default": "‹ made from zero waste patterns ›"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Top bar (Isaboko)"
+    }
+  ]
+}
+{% endschema %}

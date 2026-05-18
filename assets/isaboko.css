@@ -1,69 +1,460 @@
-/* Isaboko brand overrides — loaded after base.css in layout/theme.liquid.
- * Anything in this file is intentionally site-wide and brand-specific. */
+/* === ISABOKO BRAND LAYER ===========================================
+ * Loaded after base.css in layout/theme.liquid.
+ * Source of truth: DESIGN_SPEC.md at the repo root. Do not introduce
+ * brand decisions here that aren't in the spec.
+ * ================================================================== */
 
+/* ----------------------------------------------------------------
+ *  §2 COLOR SYSTEM — hex tokens
+ *  The spec uses hex strings (not Dawn's RGB-triplet convention), so
+ *  consume directly:  color: var(--isaboko-red);
+ *  NOT:               color: rgb(var(--isaboko-red));  (wrong shape)
+ *  Dawn's --color-* tokens still use the triplet pattern and are unaffected.
+ * ---------------------------------------------------------------- */
 :root {
-  /* Override Dawn's font tokens with a system sans stack.
-   * Dawn's Liquid still emits --font-body-family from settings.type_body_font; these win because isaboko.css loads after base.css. */
-  --font-body-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-heading-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-heading-weight: 800;
-  --font-body-weight-bold: 800;
+  --isaboko-red: #e8000f;
+  --isaboko-black: #000000;
+  --isaboko-lime: #caff00;
+  --isaboko-white: #ffffff;
+  --isaboko-off-white: #f5f5f5;
+  --isaboko-gray: #888888;
 
-  /* Brand color tokens as RGB triplets, matching Dawn's rgba(var(--token), alpha) convention. */
-  --isaboko-black: 0, 0, 0;
-  --isaboko-red: 232, 0, 15;
-  --isaboko-lime: 202, 255, 0;
-  --isaboko-white: 255, 255, 255;
+  --isaboko-transition: 150ms ease;
+}
+
+/* ----------------------------------------------------------------
+ *  §3 TYPOGRAPHY — system sans throughout, no custom font.
+ *  Overrides Dawn's --font-*-family tokens emitted in theme.liquid
+ *  from the Shopify font picker.
+ * ---------------------------------------------------------------- */
+:root {
+  --font-body-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --font-heading-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --font-heading-weight: 800;
+  --font-body-weight-bold: 700;
 }
 
 body {
-  color: rgb(var(--color-foreground));
+  font-family: var(--font-body-family);
+  font-size: 16px;
+  line-height: 32px;
   font-weight: 500;
 }
 
-h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
-  font-family: var(--font-heading-family);
-  font-weight: var(--font-heading-weight);
-  letter-spacing: -0.005em;
+h1,
+.h1 {
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+h2,
+.h2 {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+h3,
+.h3 {
+  font-size: 21px;
+  line-height: 32px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
 }
 
-/* === Header: single black bar, nav split L/R around centered red wordmark. ===
- * Requires header.liquid to render header-dropdown-menu twice (left/right halves)
- * when section.settings.logo_position == 'middle-center'. */
-
-@media screen and (min-width: 990px) {
-  .header--middle-center:not(.drawer-menu) {
-    grid-template-areas: "left-menu logo right-menu icons";
-    grid-template-columns: 1fr auto 1fr auto;
-    column-gap: 2rem;
-  }
-
-  .header__inline-menu--left  { grid-area: left-menu;  justify-self: end;   }
-  .header__inline-menu--right { grid-area: right-menu; justify-self: start; }
+.isaboko-body-2 {
+  font-size: 14px;
+  line-height: 32px;
+  font-weight: 500;
+}
+.isaboko-body-3 {
+  font-size: 13px;
+  line-height: 24px;
+  font-weight: 500;
+}
+.isaboko-caption {
+  font-size: 12px;
+  line-height: 24px;
+  font-weight: 400;
 }
 
-/* Wordmark: ISABOKO renders as shop.name inside .header__heading-link .h2.
- * Color is the brand red regardless of color-scheme; black bar already covers bg. */
-.header--middle-center .header__heading-link .h2,
-.header--middle-center .header__heading-link:hover .h2 {
-  color: rgb(var(--isaboko-red));
-  font-weight: 900;
-  letter-spacing: 0.08em;
+/* ----------------------------------------------------------------
+ *  §6 TOP BAR — static centered banner (sections/isaboko-topbar.liquid).
+ *  User override on 2026-05-18: spec §6 calls for a scrolling ticker;
+ *  the actual build is a single centered line, rendered in the case
+ *  the merchant types (no forced uppercase).
+ * ---------------------------------------------------------------- */
+.isaboko-topbar {
+  background: var(--isaboko-black);
+  color: var(--isaboko-white);
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+/* ----------------------------------------------------------------
+ *  §7 HEADER — red bar, black logo badge with red wordmark, white nav/icons.
+ *  Dawn's color-scheme-3 (red bg, white text) is applied in header-group.json,
+ *  which feeds --color-background / --color-foreground on the wrapper.
+ * ---------------------------------------------------------------- */
+
+/* Pull the whole header content to the viewport edges. Dawn's .header.page-width
+ * caps at max-width: var(--page-width) (1200px default) and pads 3.2rem each side
+ * at >=750px, so on wider screens HOME sits hundreds of pixels in from the left
+ * because of the centering whitespace. Override both so HOME hugs the left edge
+ * and the cart hugs the right. */
+.section-header .header.page-width {
+  max-width: 100%;
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
+/* Nav links — sized up from spec §7 (13px/600/0.08em) per user reference
+ * image on 2026-05-18. Inter-item padding tightened from Dawn's 1.2rem to
+ * 0.5rem horizontal so the 5 items don't sprawl. */
+.section-header .header__inline-menu .header__menu-item,
+.section-header .header__inline-menu .list-menu__item--link {
+  color: var(--isaboko-white);
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  font-size: 2.2rem;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+}
+
+/* No underline on nav links in ANY state. Dawn's base.css applies underlines
+ * in four places (active link, hover span, open dropdown summary, hover-when-
+ * open thickness) — neutralized here. Active state is signaled via weight
+ * (and red hover color in sublinks), never text-decoration. */
+.section-header .header__active-menu-item,
+.section-header .header__menu-item:hover .header__active-menu-item,
+.section-header .header__menu-item:hover span,
+.section-header details[open] > .header__menu-item,
+.section-header details[open]:hover > .header__menu-item,
+.isaboko-mega-menu__link--active {
+  text-decoration: none;
+}
+
+/* §7 Mega-menu open/close indicator: + when closed, − when open.
+ * Hides Dawn's chevron SVG (icon-caret) inside our mega-menu summaries and
+ * renders the glyph as a ::after pseudo-element so it swaps on hover/focus/[open]. */
+.isaboko-mega-menu > summary .icon-caret,
+.isaboko-mega-menu > summary svg.icon-caret {
+  display: none;
+}
+
+.isaboko-mega-menu > summary::after {
+  content: '+';
+  display: inline-block;
+  margin-left: 0.25em;
+  line-height: 1;
+  /* font-weight inherits; font-size and translateY are em-scaled so the glyph
+   * keeps its relative size + vertical lift if the nav text size changes. */
+  font-size: 1.4em;
+  transform: translateY(-0.08em);
+}
+
+.isaboko-mega-menu:hover > summary::after,
+.isaboko-mega-menu:focus-within > summary::after,
+.isaboko-mega-menu[open] > summary::after {
+  content: '−';
+}
+
+/* Mega menu opens on hover (not click). Dawn fades the panel via opacity +
+ * transform when `.mega-menu[open]` is set; we extend that "show" trigger to
+ * :hover and :focus-within. `[open]` still works for keyboard/touch fallback.
+ * pointer-events: none when invisible so the absolutely-positioned panel
+ * doesn't falsely catch hover from the body area below the header. */
+.isaboko-mega-menu .mega-menu__content {
+  pointer-events: none;
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease;
+}
+
+.isaboko-mega-menu:hover .mega-menu__content,
+.isaboko-mega-menu:focus-within .mega-menu__content,
+.isaboko-mega-menu[open] .mega-menu__content {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Cart count bubble — lime background, black text on the red header bar.
+ * Default Dawn maps it to --color-button (black on scheme-3); brand calls
+ * for the lime accent here. */
+.section-header .cart-count-bubble {
+  background-color: var(--isaboko-lime);
+  color: var(--isaboko-black);
+}
+
+/* Right cluster: search / account / cart icons + dropdown carets — all white. */
+.section-header .header__icon,
+.section-header .header__icon svg,
+.section-header summary .icon-caret {
+  color: var(--isaboko-white);
+}
+
+/* Country selector ("UNITED STATES (USD)" on the right of the bar):
+ * matches nav typography on red — same 16px/700/0.05em. */
+.section-header .localization-form__select,
+.section-header .localization-selector,
+.section-header .disclosure__button {
+  color: var(--isaboko-white);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: transparent;
+  border: none;
+}
+
+/* Logo badge — black rectangle with a lime border, lime wordmark inside,
+ * stars (★) flanking via ::before / ::after so the merchant can keep
+ * shop.name = "ISABOKO" in admin.
+ *
+ * NOTE: deviates from DESIGN_SPEC.md §7 ("black background, white or red
+ * text", bullets). User overrode on 2026-05-18 — locked-in pattern. */
+.header__heading-link .h2 {
+  display: inline-block;
+  background: var(--isaboko-black);
+  color: var(--isaboko-lime);
+  border: 2px solid var(--isaboko-lime);
+  padding: 6px 14px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   line-height: 1;
 }
 
-/* Nav links: uppercase, tight tracking, bold — graphic register. */
-.header__inline-menu .header__menu-item,
-.header__inline-menu .list-menu__item--link {
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-weight: 700;
-  font-size: 1.3rem;
+.header__heading-link:hover .h2 {
+  color: var(--isaboko-lime);
 }
 
-/* Caret next to dropdown summaries reads in white on black header (color-scheme-2). */
-.header__inline-menu summary .icon-caret {
-  color: rgb(var(--color-foreground));
+.header__heading-link .h2::before,
+.header__heading-link .h2::after {
+  content: '\2605';
+  display: inline-block;
+  margin: 0 0.4em;
+  color: var(--isaboko-lime);
+}
+
+/* ----------------------------------------------------------------
+ *  §7 MEGA MENU — white panel, columns + editorial image slots on the right.
+ *  Rendered by snippets/isaboko-mega-menu.liquid when
+ *  section.settings.menu_type_desktop == 'mega'.
+ * ---------------------------------------------------------------- */
+.isaboko-mega-menu__content {
+  background: var(--isaboko-white);
+  color: var(--isaboko-black);
+  padding: 32px 0 40px;
+  border-top: 1px solid var(--isaboko-black);
+}
+
+.isaboko-mega-menu__inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 48px;
+  align-items: start;
+}
+
+.isaboko-mega-menu__columns {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.isaboko-mega-menu__column {
+  break-inside: avoid;
+}
+
+.isaboko-mega-menu__column-heading {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--isaboko-black);
+  margin: 0 0 20px;
+  text-decoration: none;
+  transition: color var(--isaboko-transition);
+}
+
+.isaboko-mega-menu__column-heading:hover {
+  color: var(--isaboko-red);
+}
+
+/* The <a> inside each dropdown <summary> — inherits the nav typography from
+ * its parent summary; we only need to strip the default link styling so it
+ * visually matches what the <span> rendered before. Click handler in the
+ * snippet's <script> block preventDefault + stopPropagation so navigating
+ * doesn't toggle the <details>. */
+.isaboko-mega-menu__summary-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.isaboko-mega-menu__summary-link:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.isaboko-mega-menu__sublist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.isaboko-mega-menu__sublink {
+  display: block;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--isaboko-black);
+  text-decoration: none;
+  padding: 6px 0;
+  transition: color var(--isaboko-transition);
+}
+
+.isaboko-mega-menu__sublink:hover {
+  color: var(--isaboko-red);
+}
+
+.isaboko-mega-menu__link--active {
+  font-weight: 600;
+}
+
+.isaboko-mega-menu__promos {
+  display: flex;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.isaboko-mega-menu__promo {
+  width: 240px;
+}
+
+.isaboko-mega-menu__promo-link {
+  display: block;
+  text-decoration: none;
+  color: var(--isaboko-black);
+}
+
+.isaboko-mega-menu__promo-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.isaboko-mega-menu__promo-heading {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Placeholder shown inside an empty dropdown panel until sub-menu content
+ * is wired in. Intentionally low-key so it reads as a "to-do" marker. */
+.isaboko-mega-menu__placeholder {
+  margin: 0;
+  padding: 16px 0;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--isaboko-gray);
+}
+
+/* ----------------------------------------------------------------
+ *  §5 BUTTONS — primary 3 variants, outlined, disabled.
+ *  Class-based system (.isaboko-button). Dawn's own .button is unchanged;
+ *  use these for brand CTAs as we build out the pages.
+ * ---------------------------------------------------------------- */
+.isaboko-button {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  border-radius: 0;
+  transition:
+    background-color var(--isaboko-transition),
+    color var(--isaboko-transition);
+}
+
+.isaboko-button--lime {
+  background: var(--isaboko-lime);
+  color: var(--isaboko-black);
+}
+.isaboko-button--black {
+  background: var(--isaboko-black);
+  color: var(--isaboko-white);
+}
+.isaboko-button--red {
+  background: var(--isaboko-red);
+  color: var(--isaboko-white);
+}
+
+.isaboko-button--lime:hover {
+  background: var(--isaboko-black);
+  color: var(--isaboko-lime);
+}
+.isaboko-button--black:hover {
+  background: var(--isaboko-red);
+  color: var(--isaboko-white);
+}
+.isaboko-button--red:hover {
+  background: var(--isaboko-black);
+  color: var(--isaboko-white);
+}
+
+.isaboko-button--outlined {
+  background: transparent;
+  border-color: currentColor;
+}
+.isaboko-button--outlined-lime {
+  color: var(--isaboko-lime);
+}
+.isaboko-button--outlined-black {
+  color: var(--isaboko-black);
+}
+.isaboko-button--outlined-red {
+  color: var(--isaboko-red);
+}
+
+.isaboko-button:disabled,
+.isaboko-button[disabled] {
+  background: #cccccc;
+  color: var(--isaboko-gray);
+  cursor: not-allowed;
+}
+
+/* ----------------------------------------------------------------
+ *  §24 FLAT — no rounded corners, no shadows on brand surfaces.
+ *  Dawn's settings already drive radius=0/shadow-opacity=0 for buttons,
+ *  cards, and inputs (see config/settings_data.json). This is a safety
+ *  net for the brand classes defined above.
+ * ---------------------------------------------------------------- */
+.isaboko-button,
+.isaboko-topbar,
+.header__heading-link .h2 {
+  border-radius: 0;
+  box-shadow: none;
 }

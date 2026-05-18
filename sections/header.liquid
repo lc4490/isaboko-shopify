@@ -169,17 +169,11 @@
     {%- endif -%}
 
     {%- liquid
-      assign isaboko_split_nav = false
-      if section.settings.menu != blank and section.settings.menu_type_desktop == 'dropdown' and section.settings.logo_position == 'middle-center'
-        assign isaboko_split_nav = true
-        assign isaboko_left_count = section.settings.menu.links.size | plus: 1 | divided_by: 2
-      endif
-
       if section.settings.menu != blank
-        if isaboko_split_nav
-          render 'header-dropdown-menu', menu_offset: 0, menu_limit: isaboko_left_count, menu_position: 'left'
-        elsif section.settings.menu_type_desktop == 'dropdown'
+        if section.settings.menu_type_desktop == 'dropdown'
           render 'header-dropdown-menu'
+        elsif section.settings.menu_type_desktop == 'mega'
+          render 'isaboko-mega-menu'
         elsif section.settings.menu_type_desktop != 'drawer'
           render 'header-mega-menu'
         endif
@@ -214,10 +208,6 @@
       {%- if request.page_type == 'index' -%}
         </h1>
       {%- endif -%}
-    {%- endif -%}
-
-    {%- if isaboko_split_nav -%}
-      {% render 'header-dropdown-menu', menu_offset: isaboko_left_count, menu_limit: 999, menu_position: 'right' %}
     {%- endif -%}
 
     <div class="header__icons{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header__icons--localization header-localization{% endif %}">
@@ -644,6 +634,45 @@
   "blocks": [
     {
       "type": "@app"
+    },
+    {
+      "type": "mega_menu_image",
+      "name": "Mega menu image",
+      "limit": 9,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Editorial image slot for a top-level mega-menu dropdown (DESIGN_SPEC.md §7)."
+        },
+        {
+          "type": "select",
+          "id": "parent_link_handle",
+          "label": "Show in dropdown",
+          "info": "Match this to the top-level link handle in Navigation → main-menu. Title 'SHOP' → handle 'shop'.",
+          "options": [
+            { "value": "shop", "label": "SHOP" },
+            { "value": "custom", "label": "CUSTOM" },
+            { "value": "world", "label": "WORLD" }
+          ],
+          "default": "shop"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Editorial image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Caption",
+          "info": "Optional. Shown below the image."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
     }
   ]
 }

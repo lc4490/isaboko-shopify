@@ -1,0 +1,242 @@
+{% comment %}
+  Isaboko mega menu — top-level nav is HARDCODED per DESIGN_SPEC.md §7.
+  Five items: HOME (flat) / SHOP / CUSTOM / WORLD (dropdowns) / PATCH CLUB (flat).
+
+  The merchant's `linklists.main-menu` setting is intentionally ignored here so
+  the nav appears without any Shopify admin setup. To change the top-level nav,
+  edit the parallel-array data below.
+
+  SHOP / CUSTOM / WORLD summary headers are themselves links (to nav_urls below).
+  Their <a> inside <summary> uses JS preventDefault + manual navigate to avoid
+  the native <details> toggle behavior on click — hover handles open/close.
+{% endcomment %}
+
+{%- assign nav_titles    = "HOME,SHOP,CUSTOM,WORLD,PATCH CLUB" | split: "," -%}
+{%- assign nav_handles   = "home,shop,custom,world,patch-club" | split: "," -%}
+{%- assign nav_urls      = "/,/collections/all,/pages/custom,/pages/world,/products/patch-club" | split: "," -%}
+{%- assign nav_dropdowns = "0,1,1,1,0" | split: "," -%}
+
+<nav class="header__inline-menu">
+  <ul class="list-menu list-menu--inline" role="list">
+    {%- for title in nav_titles -%}
+      {%- assign idx = forloop.index0 -%}
+      {%- assign handle = nav_handles[idx] -%}
+      {%- assign url = nav_urls[idx] -%}
+      {%- assign is_dropdown = nav_dropdowns[idx] -%}
+
+      <li>
+        {%- if is_dropdown == "1" -%}
+          <header-menu>
+            <details id="Details-HeaderMenu-{{ handle }}" class="mega-menu isaboko-mega-menu">
+              <summary
+                id="HeaderMenu-{{ handle }}"
+                class="header__menu-item list-menu__item link focus-inset"
+              >
+                <a href="{{ url }}" class="isaboko-mega-menu__summary-link">{{ title }}</a>
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </summary>
+
+              <div
+                id="MegaMenu-Content-{{ handle }}"
+                class="mega-menu__content isaboko-mega-menu__content color-scheme-1 gradient motion-reduce global-settings-popup"
+                tabindex="-1"
+              >
+                <div class="isaboko-mega-menu__inner page-width">
+
+                  {%- comment -%} Hardcoded category columns per dropdown handle (per Figma 2026-05-18). {%- endcomment -%}
+                  {%- if handle == 'shop' -%}
+                    <ul class="isaboko-mega-menu__columns" role="list">
+                      <li class="isaboko-mega-menu__column">
+                        <a class="isaboko-mega-menu__column-heading" href="/collections/featured">FEATURED</a>
+                        <ul class="isaboko-mega-menu__sublist" role="list">
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/all">Shop All</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/new-arrivals">New Arrivals</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/one-of-a-kind">One-of-a-kind</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/shop-by-look">Shop by Look</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/products/gift-card">Gift Card</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/products/patch-club">Patch Club</a></li>
+                        </ul>
+                      </li>
+                      <li class="isaboko-mega-menu__column">
+                        <a class="isaboko-mega-menu__column-heading" href="/collections/clothing">CLOTHING</a>
+                        <ul class="isaboko-mega-menu__sublist" role="list">
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/jackets-coats">Jackets/Coats</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/dresses">Dresses</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/blouses">Blouses</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/vests">Vests</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/shorts">Shorts</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/skirts">Skirts</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/pants">Pants</a></li>
+                        </ul>
+                      </li>
+                      <li class="isaboko-mega-menu__column">
+                        <a class="isaboko-mega-menu__column-heading" href="/collections/accessories">ACCESSORIES</a>
+                        <ul class="isaboko-mega-menu__sublist" role="list">
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/bags">Bags</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/hats">Hats</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/bolos">Bolos</a></li>
+                        </ul>
+                      </li>
+                      <li class="isaboko-mega-menu__column">
+                        <a class="isaboko-mega-menu__column-heading" href="/pages/fabric">FABRIC</a>
+                        <ul class="isaboko-mega-menu__sublist" role="list">
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/kimino">Kimino</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/silk">Silk</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/other">Other</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  {%- elsif handle == 'custom' -%}
+                    <ul class="isaboko-mega-menu__columns" role="list">
+                      <li class="isaboko-mega-menu__column">
+                        <a class="isaboko-mega-menu__column-heading" href="/pages/custom">FEATURED</a>
+                        <ul class="isaboko-mega-menu__sublist" role="list">
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/events-ceremonies">Events &amp; Ceremonies</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/send-in-your-kimono">Send in your Kimono</a></li>
+                        </ul>
+                      </li>
+                      <li class="isaboko-mega-menu__column">
+                        <a class="isaboko-mega-menu__column-heading" href="/pages/customize">CUSTOMIZE</a>
+                        <ul class="isaboko-mega-menu__sublist" role="list">
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/make-to-order-1">Make to order 1</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/make-to-order-2">Make to order 2</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/make-to-order-3">Make to order 3</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/make-to-order-4">Make to order 4</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  {%- elsif handle == 'world' -%}
+                    <ul class="isaboko-mega-menu__columns" role="list">
+                      <li class="isaboko-mega-menu__column">
+                        <a class="isaboko-mega-menu__column-heading" href="/pages/about">ABOUT</a>
+                        <ul class="isaboko-mega-menu__sublist" role="list">
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/meet-the-founder">Meet the founder</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/guidebook">Guidebook</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/sustainability">Sustainability</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/blogs/journal">Journal</a></li>
+                        </ul>
+                      </li>
+                      <li class="isaboko-mega-menu__column">
+                        <a class="isaboko-mega-menu__column-heading" href="/pages/community">COMMUNITY</a>
+                        <ul class="isaboko-mega-menu__sublist" role="list">
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/isaboko-fam">Isaboko Fam</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/products/patch-club">Patch Club</a></li>
+                        </ul>
+                      </li>
+                      <li class="isaboko-mega-menu__column">
+                        <a class="isaboko-mega-menu__column-heading" href="/pages/archive">ARCHIVE</a>
+                        <ul class="isaboko-mega-menu__sublist" role="list">
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/custom-pieces">Custom Pieces</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections">Collections</a></li>
+                        </ul>
+                      </li>
+                      <li class="isaboko-mega-menu__column">
+                        <a class="isaboko-mega-menu__column-heading" href="/pages/customer-care">CUSTOMER CARE</a>
+                        <ul class="isaboko-mega-menu__sublist" role="list">
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/contact">Contact</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/faqs">FAQs</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/shipping-returns">Shipping &amp; Returns</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  {%- endif -%}
+
+                  {%- comment -%} Editorial image slots from section blocks (rendered alongside hardcoded columns when present). {%- endcomment -%}
+                  {%- assign promos = section.blocks | where: 'type', 'mega_menu_image' -%}
+                  {%- assign has_promos = false -%}
+                  {%- for block in promos -%}
+                    {%- if block.settings.parent_link_handle == handle -%}
+                      {%- assign has_promos = true -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+
+                  {%- if has_promos -%}
+                    <ul class="isaboko-mega-menu__promos" role="list">
+                      {%- for block in promos -%}
+                        {%- if block.settings.parent_link_handle == handle -%}
+                          <li class="isaboko-mega-menu__promo" {{ block.shopify_attributes }}>
+                            <a href="{{ block.settings.link | default: '#' }}" class="isaboko-mega-menu__promo-link">
+                              {%- if block.settings.image != blank -%}
+                                {{ block.settings.image | image_url: width: 600 | image_tag:
+                                  class: 'isaboko-mega-menu__promo-image',
+                                  loading: 'lazy',
+                                  widths: '200, 300, 400, 600',
+                                  sizes: '(min-width: 990px) 240px, 50vw'
+                                }}
+                              {%- endif -%}
+                              {%- if block.settings.heading != blank -%}
+                                <span class="isaboko-mega-menu__promo-heading">{{ block.settings.heading | escape }}</span>
+                              {%- endif -%}
+                            </a>
+                          </li>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+
+                  {%- comment -%}
+                    All three dropdown handles (shop / custom / world) now have hardcoded columns
+                    (2026-05-18). Placeholder retained as defensive fallback if a future dropdown
+                    handle is added to nav_handles without matching hardcoded content.
+                  {%- endcomment -%}
+                  {%- unless handle == 'shop' or handle == 'custom' or handle == 'world' or has_promos -%}
+                    <p class="isaboko-mega-menu__placeholder">{{ title }} dropdown — categories coming next.</p>
+                  {%- endunless -%}
+
+                </div>
+              </div>
+            </details>
+          </header-menu>
+        {%- else -%}
+          <a
+            id="HeaderMenu-{{ handle }}"
+            href="{{ url }}"
+            class="header__menu-item list-menu__item link link--text focus-inset"
+          >
+            <span>{{ title }}</span>
+          </a>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+</nav>
+
+{%- comment -%}
+  Two scripts:
+    1. Hover-to-open: <details> doesn't render non-summary children when closed,
+       so CSS :hover alone can't reveal the panel. We toggle details.open on
+       mouseenter / mouseleave, which fires Dawn's [open]-based fade. The 150ms
+       leave-delay covers brief cursor traversal from summary to panel.
+    2. Summary-link click: clicking the <a> inside a <summary> would normally
+       both navigate AND toggle the <details>. We preventDefault + stopPropagation
+       and manually navigate so click goes ONLY to the destination URL.
+{%- endcomment -%}
+<script>
+  (function () {
+    document.querySelectorAll('.isaboko-mega-menu:not([data-hover-init])').forEach(function (details) {
+      details.dataset.hoverInit = 'true';
+      var leaveTimer;
+
+      details.addEventListener('mouseenter', function () {
+        clearTimeout(leaveTimer);
+        if (!details.open) details.open = true;
+      });
+
+      details.addEventListener('mouseleave', function () {
+        leaveTimer = setTimeout(function () {
+          details.open = false;
+        }, 150);
+      });
+
+      var summaryLink = details.querySelector('summary > a');
+      if (summaryLink) {
+        summaryLink.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.href = summaryLink.href;
+        });
+      }
+    });
+  })();
+</script>

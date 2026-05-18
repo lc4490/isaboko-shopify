@@ -3,24 +3,15 @@
 
   Usage:
   {% render 'header-dropdown-menu' %}
-  {% render 'header-dropdown-menu', menu_offset: 0, menu_limit: 3, menu_position: 'left' %}
-
-  Optional params (Isaboko split-nav support):
-    menu_offset   integer — number of links to skip (default 0)
-    menu_limit    integer — max links to render (default 999)
-    menu_position string  — 'left' or 'right'; appended as .header__inline-menu--<value>
 {% endcomment %}
 
-{%- assign menu_offset = menu_offset | default: 0 -%}
-{%- assign menu_limit = menu_limit | default: 999 -%}
-
-<nav class="header__inline-menu{% if menu_position %} header__inline-menu--{{ menu_position }}{% endif %}">
+<nav class="header__inline-menu">
   <ul class="list-menu list-menu--inline" role="list">
-    {%- for link in section.settings.menu.links offset: menu_offset limit: menu_limit -%}
+    {%- for link in section.settings.menu.links -%}
       <li>
         {%- if link.links != blank -%}
           <header-menu>
-            <details id="Details-HeaderMenu-{{ link.handle }}">
+            <details id="Details-HeaderMenu-{{ forloop.index }}">
               <summary
                 id="HeaderMenu-{{ link.handle }}"
                 class="header__menu-item list-menu__item link focus-inset"
@@ -35,7 +26,7 @@
                 {{- 'icon-caret.svg' | inline_asset_content -}}
               </summary>
               <ul
-                id="HeaderMenu-MenuList-{{ link.handle }}"
+                id="HeaderMenu-MenuList-{{ forloop.index }}"
                 class="header__submenu list-menu list-menu--disclosure color-{{ section.settings.menu_color_scheme }} gradient caption-large motion-reduce global-settings-popup"
                 role="list"
                 tabindex="-1"
