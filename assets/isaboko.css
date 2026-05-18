@@ -1,0 +1,69 @@
+/* Isaboko brand overrides — loaded after base.css in layout/theme.liquid.
+ * Anything in this file is intentionally site-wide and brand-specific. */
+
+:root {
+  /* Override Dawn's font tokens with a system sans stack.
+   * Dawn's Liquid still emits --font-body-family from settings.type_body_font; these win because isaboko.css loads after base.css. */
+  --font-body-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-heading-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-heading-weight: 800;
+  --font-body-weight-bold: 800;
+
+  /* Brand color tokens as RGB triplets, matching Dawn's rgba(var(--token), alpha) convention. */
+  --isaboko-black: 0, 0, 0;
+  --isaboko-red: 232, 0, 15;
+  --isaboko-lime: 202, 255, 0;
+  --isaboko-white: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--color-foreground));
+  font-weight: 500;
+}
+
+h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+  letter-spacing: -0.005em;
+}
+
+/* === Header: single black bar, nav split L/R around centered red wordmark. ===
+ * Requires header.liquid to render header-dropdown-menu twice (left/right halves)
+ * when section.settings.logo_position == 'middle-center'. */
+
+@media screen and (min-width: 990px) {
+  .header--middle-center:not(.drawer-menu) {
+    grid-template-areas: "left-menu logo right-menu icons";
+    grid-template-columns: 1fr auto 1fr auto;
+    column-gap: 2rem;
+  }
+
+  .header__inline-menu--left  { grid-area: left-menu;  justify-self: end;   }
+  .header__inline-menu--right { grid-area: right-menu; justify-self: start; }
+}
+
+/* Wordmark: ISABOKO renders as shop.name inside .header__heading-link .h2.
+ * Color is the brand red regardless of color-scheme; black bar already covers bg. */
+.header--middle-center .header__heading-link .h2,
+.header--middle-center .header__heading-link:hover .h2 {
+  color: rgb(var(--isaboko-red));
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+/* Nav links: uppercase, tight tracking, bold — graphic register. */
+.header__inline-menu .header__menu-item,
+.header__inline-menu .list-menu__item--link {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+/* Caret next to dropdown summaries reads in white on black header (color-scheme-2). */
+.header__inline-menu summary .icon-caret {
+  color: rgb(var(--color-foreground));
+}
