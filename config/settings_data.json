@@ -2,7 +2,8 @@
   "current": "Default",
   "presets": {
     "Default": {
-      "logo_width": 90,
+      "logo": "shopify://shop_images/isaboko_logo_2.5x.75.png",
+      "logo_width": 200,
       "color_schemes": {
         "scheme-1": {
           "settings": {
@@ -166,7 +167,7 @@
       "predictive_search_show_vendor": false,
       "predictive_search_show_price": false,
       "currency_code_enabled": true,
-      "cart_type": "notification",
+      "cart_type": "drawer",
       "show_vendor": false,
       "show_cart_note": false,
       "cart_drawer_collection": "",

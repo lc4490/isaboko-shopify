@@ -9,6 +9,8 @@
 
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- else -%}
+      <link rel="icon" type="image/svg+xml" href="{{ 'favicon.svg' | asset_url }}">
     {%- endif -%}
 
     {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
@@ -24,6 +26,8 @@
 
     {% if page_description %}
       <meta name="description" content="{{ page_description | escape }}">
+    {% elsif template == 'index' %}
+      <meta name="description" content="Isaboko — one-of-a-kind garments made from vintage kimonos and obis. Brooklyn-made, zero-waste fashion honoring Japanese textile heritage.">
     {% endif %}
 
     {% render 'meta-tags' %}

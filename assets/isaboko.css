@@ -1254,7 +1254,12 @@ h3,
 .isaboko-lookbook__grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 4px;
+  gap: 2px;
+}
+
+/* ---- Lookbook: clip watermark text on images ---- */
+.isaboko-lookbook__image-wrapper {
+  overflow: hidden;
 }
 
 @media (min-width: 750px) {
@@ -1534,4 +1539,154 @@ h3,
 .header__heading-link .h2 {
   border-radius: 0;
   box-shadow: none;
+}
+
+/* ----------------------------------------------------------------
+ *  PRODUCT PAGE — brand-style Add to Cart + buy buttons.
+ * ---------------------------------------------------------------- */
+.product-form__submit {
+  background: var(--isaboko-black) !important;
+  color: var(--isaboko-white) !important;
+  border: none !important;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 16px 32px;
+  border-radius: 0 !important;
+}
+
+.product-form__submit:hover {
+  background: #222 !important;
+}
+
+.shopify-payment-button__button {
+  border-radius: 0 !important;
+}
+
+/* ----------------------------------------------------------------
+ *  CONTENT PAGES — brand treatment for static pages (about, faq, etc.)
+ * ---------------------------------------------------------------- */
+.page-width--narrow .page__title,
+.article-template__title {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.article-template__content h2,
+.page-width--narrow .rte h2 {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* ----------------------------------------------------------------
+ *  404 PAGE — brand-styled error page.
+ * ---------------------------------------------------------------- */
+.template-404 {
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.template-404 .title {
+  font-size: 80px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.template-404 .button {
+  background: var(--isaboko-black);
+  color: var(--isaboko-white);
+  border: none;
+  border-radius: 0;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 16px 40px;
+}
+
+.template-404 .button:hover {
+  background: #222;
+}
+
+/* ----------------------------------------------------------------
+ *  COLLECTION PAGE — brand treatment for grid + filters.
+ * ---------------------------------------------------------------- */
+.collection .title,
+.collection-hero__title {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* ----------------------------------------------------------------
+ *  CART DRAWER — brand-styled slide-out drawer.
+ * ---------------------------------------------------------------- */
+.cart-drawer .drawer__heading {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 16px;
+}
+
+.cart-drawer .cart-item__name {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.cart-drawer .button,
+.cart-drawer .cart__checkout-button {
+  background: var(--isaboko-black);
+  color: var(--isaboko-white);
+  border: none;
+  border-radius: 0;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cart-drawer .button:hover,
+.cart-drawer .cart__checkout-button:hover {
+  background: #222;
+}
+
+.cart-drawer .totals__total-value {
+  font-weight: 700;
+}
+
+/* ----------------------------------------------------------------
+ *  MOBILE REFINEMENTS
+ * ---------------------------------------------------------------- */
+@media (max-width: 749px) {
+  .isaboko-hero__info {
+    padding: 24px 20px;
+  }
+
+  .isaboko-patch-club__heading {
+    font-size: 28px;
+  }
+
+  .isaboko-process__heading {
+    font-size: 28px;
+  }
+
+  .isaboko-lookbook__heading {
+    font-size: 18px;
+  }
+
+  .isaboko-lookbook__label {
+    font-size: 14px;
+    padding: 4px 8px;
+  }
+
+  .isaboko-category-tiles__grid {
+    gap: 2px;
+  }
 }
