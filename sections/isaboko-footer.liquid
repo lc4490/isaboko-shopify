@@ -1,0 +1,123 @@
+{%- comment -%}
+  Isaboko custom footer — matches Figma prototype.
+  White background, 2px black top border, "ISABOKO" wordmark,
+  6-column nav grid, social icons, red bottom bar with copyright + currency.
+  CSS lives in assets/isaboko.css under "FOOTER".
+{%- endcomment -%}
+
+<footer class="isaboko-footer" data-section-id="{{ section.id }}">
+  <div class="isaboko-footer__inner">
+    <div class="isaboko-footer__brand">ISABOKO</div>
+
+    <div class="isaboko-footer__nav">
+      <div class="isaboko-footer__col">
+        <h4 class="isaboko-footer__col-heading">HOME</h4>
+        <ul class="isaboko-footer__links">
+          <li><a href="/">Trending Products</a></li>
+          <li><a href="/blogs/journal/our-mission">Isaboko Story</a></li>
+          <li><a href="/collections/archive">Pieces from the Past</a></li>
+        </ul>
+      </div>
+
+      <div class="isaboko-footer__col">
+        <h4 class="isaboko-footer__col-heading">SHOP</h4>
+        <ul class="isaboko-footer__links">
+          <li><a href="/collections/all">Shop All</a></li>
+          <li><a href="/collections/new">New Arrivals</a></li>
+          <li><a href="/collections/in-stock">One-of-a-Kind</a></li>
+          <li><a href="/collections/all">Shop by Look</a></li>
+        </ul>
+      </div>
+
+      <div class="isaboko-footer__col">
+        <h4 class="isaboko-footer__col-heading">CUSTOM</h4>
+        <ul class="isaboko-footer__links">
+          <li><a href="/collections/made-to-order">Make to Order</a></li>
+          <li><a href="/pages/zero-waste-patterns">Customize Yours</a></li>
+        </ul>
+      </div>
+
+      <div class="isaboko-footer__col">
+        <h4 class="isaboko-footer__col-heading">WORLD</h4>
+        <ul class="isaboko-footer__links">
+          <li><a href="/blogs/journal/our-mission">About</a></li>
+          <li><a href="/blogs/journal">Community</a></li>
+          <li><a href="/collections/archive">Archive</a></li>
+        </ul>
+      </div>
+
+      <div class="isaboko-footer__col">
+        <h4 class="isaboko-footer__col-heading">PATCH CLUB</h4>
+        <ul class="isaboko-footer__links">
+          <li><a href="/pages/garment-care">GARMENT CARE</a></li>
+          <li><a href="/pages/shipping-returns-repairs">SHIPPING &amp; RETURNS</a></li>
+        </ul>
+      </div>
+
+      <div class="isaboko-footer__col">
+        <h4 class="isaboko-footer__col-heading">CONTACT</h4>
+        <ul class="isaboko-footer__links">
+          <li><a href="mailto:hello@isaboko.com">hello@isaboko.com</a></li>
+          <li><a href="tel:+12985466768">+1 (298) 546 6768</a></li>
+        </ul>
+        <div class="isaboko-footer__social">
+          <a href="https://www.facebook.com/isaboko" aria-label="Facebook" class="isaboko-footer__social-link">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 10C18 5.58 14.42 2 10 2C5.58 2 2 5.58 2 10C2 13.99 4.93 17.3 8.75 17.9V12.31H6.72V10H8.75V8.28C8.75 6.28 9.94 5.18 11.77 5.18C12.65 5.18 13.56 5.34 13.56 5.34V7.31H12.56C11.56 7.31 11.25 7.93 11.25 8.57V10H13.47L13.11 12.31H11.25V17.9C15.07 17.3 18 13.99 18 10Z" fill="currentColor"/>
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/isaboko_/?hl=en" aria-label="Instagram" class="isaboko-footer__social-link">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 6.5C8.07 6.5 6.5 8.07 6.5 10C6.5 11.93 8.07 13.5 10 13.5C11.93 13.5 13.5 11.93 13.5 10C13.5 8.07 11.93 6.5 10 6.5ZM10 12.17C8.8 12.17 7.83 11.2 7.83 10C7.83 8.8 8.8 7.83 10 7.83C11.2 7.83 12.17 8.8 12.17 10C12.17 11.2 11.2 12.17 10 12.17Z" fill="currentColor"/>
+              <circle cx="13.73" cy="6.27" r="0.8" fill="currentColor"/>
+              <path d="M13.5 3H6.5C4.57 3 3 4.57 3 6.5V13.5C3 15.43 4.57 17 6.5 17H13.5C15.43 17 17 15.43 17 13.5V6.5C17 4.57 15.43 3 13.5 3ZM15.67 13.5C15.67 14.7 14.7 15.67 13.5 15.67H6.5C5.3 15.67 4.33 14.7 4.33 13.5V6.5C4.33 5.3 5.3 4.33 6.5 4.33H13.5C14.7 4.33 15.67 5.3 15.67 6.5V13.5Z" fill="currentColor"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="isaboko-footer__bottom">
+    <span class="isaboko-footer__copyright">&copy; {{ 'now' | date: '%Y' }} Isaboko</span>
+    <div class="isaboko-footer__bottom-right">
+      {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+        <localization-form>
+          {%- form 'localization', id: 'FooterCountryForm', class: 'isaboko-footer__currency-form' -%}
+            <select name="country_code" id="FooterCountrySelect" class="isaboko-footer__currency-select">
+              {%- for country in localization.available_countries -%}
+                <option value="{{ country.iso_code }}" {% if country.iso_code == localization.country.iso_code %}selected{% endif %}>
+                  {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+                </option>
+              {%- endfor -%}
+            </select>
+            <button type="submit" class="isaboko-footer__currency-btn">Update</button>
+          {%- endform -%}
+        </localization-form>
+      {%- else -%}
+        <span class="isaboko-footer__region">UNITED STATES (USD) &#9662;</span>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer (Isaboko)",
+  "tag": "section",
+  "class": "isaboko-footer-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_country_selector",
+      "label": "Enable country/currency selector",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer (Isaboko)"
+    }
+  ]
+}
+{% endschema %}

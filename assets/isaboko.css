@@ -447,6 +447,1080 @@ h3,
 }
 
 /* ----------------------------------------------------------------
+ *  HERO — split layout: left image slideshow + right info panel.
+ *  Section: sections/isaboko-hero.liquid
+ * ---------------------------------------------------------------- */
+.isaboko-hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  min-height: 0;
+}
+
+@media (min-width: 990px) {
+  .isaboko-hero {
+    grid-template-columns: 67fr 33fr;
+    height: calc(100vh - 36px - 95px - 100px);
+    min-height: 400px;
+    max-height: 700px;
+  }
+}
+
+/* Left — slideshow */
+.isaboko-hero__left {
+  position: relative;
+  overflow: hidden;
+  background: var(--isaboko-black);
+  min-height: 400px;
+}
+
+@media (min-width: 990px) {
+  .isaboko-hero__left {
+    min-height: 0;
+    height: 100%;
+  }
+}
+
+.isaboko-hero__slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.isaboko-hero__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.isaboko-hero__slide--active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.isaboko-hero__slide-img,
+.isaboko-hero__slide-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.isaboko-hero__slide-placeholder {
+  background: #333;
+}
+
+.isaboko-hero__slide-placeholder svg {
+  width: 100%;
+  height: 100%;
+}
+
+.isaboko-hero__slide-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 40px 36px 60px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, transparent 100%);
+  z-index: 2;
+}
+
+.isaboko-hero__slide-heading {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--isaboko-white);
+  margin: 0 0 8px;
+  line-height: 1.1;
+}
+
+.isaboko-hero__slide-text {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--isaboko-white);
+  margin: 0;
+  max-width: 400px;
+}
+
+/* Dot pagination */
+.isaboko-hero__dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 3;
+}
+
+.isaboko-hero__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  padding: 0;
+  transition: background var(--isaboko-transition);
+}
+
+.isaboko-hero__dot--active {
+  background: var(--isaboko-white);
+}
+
+/* Right — info panel */
+.isaboko-hero__right {
+  background: var(--isaboko-white);
+  display: flex;
+  flex-direction: column;
+  padding: 40px 36px;
+}
+
+@media (min-width: 990px) {
+  .isaboko-hero__right {
+    padding: 40px 40px 32px;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+.isaboko-hero__description {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--isaboko-black);
+  margin: 0 0 24px;
+}
+
+.isaboko-hero__detail-image {
+  flex: 1;
+  min-height: 0;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.isaboko-hero__detail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.isaboko-hero__detail-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #eee;
+}
+
+.isaboko-hero__detail-placeholder svg {
+  width: 100%;
+  height: 100%;
+}
+
+.isaboko-hero__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 16px 24px;
+  background: var(--isaboko-black);
+  color: var(--isaboko-white);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color var(--isaboko-transition), color var(--isaboko-transition);
+  margin-bottom: 24px;
+}
+
+.isaboko-hero__cta:hover {
+  background: var(--isaboko-red);
+  color: var(--isaboko-white);
+}
+
+.isaboko-hero__cta-arrow {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.isaboko-hero__arrows {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.isaboko-hero__arrow {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--isaboko-gray);
+  padding: 0;
+  transition: color var(--isaboko-transition);
+}
+
+.isaboko-hero__arrow:hover {
+  color: var(--isaboko-black);
+}
+
+/* ----------------------------------------------------------------
+ *  TRENDING PRODUCTS — override Dawn's featured-collection to match
+ *  Figma: bold italic heading left, VIEW ALL right on same row,
+ *  dark background (scheme-2), arrows overlaid on product images.
+ * ---------------------------------------------------------------- */
+
+/* Make the collection wrapper a positioning context so VIEW ALL can
+ * be placed top-right alongside the heading. */
+.isaboko-hero-section + .section .collection {
+  position: relative;
+}
+
+.isaboko-hero-section + .section .collection__title {
+  max-width: 100%;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.isaboko-hero-section + .section .collection__title.page-width {
+  max-width: 100%;
+}
+
+.isaboko-hero-section + .section .collection__title .title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Move the VIEW ALL link from below-the-grid to the heading row. */
+.isaboko-hero-section + .section .collection__view-all {
+  position: absolute;
+  top: 16px;
+  right: 0;
+  padding-right: 1.5rem;
+}
+
+/* Product info text aligns with the heading */
+.isaboko-hero-section + .section .card__content {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Remove gap between hero and trending. */
+.isaboko-hero-section {
+  margin-bottom: 0;
+}
+.isaboko-hero-section + .section {
+  margin-top: 0;
+}
+
+/* Reduce top padding so heading peeks on load */
+.isaboko-hero-section + .section .collection {
+  padding-top: 16px !important;
+}
+
+/* Disable Dawn's scroll-trigger animation on the heading so it's visible on load */
+.isaboko-hero-section + .section .scroll-trigger {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.isaboko-hero-section + .section .collection__view-all a {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+  border-bottom: none;
+}
+
+/* Slider component: relative context for overlaid arrows, full-width images */
+.isaboko-hero-section + .section slider-component {
+  position: relative;
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Override Dawn's page-width-desktop padding so cards span full width */
+.isaboko-hero-section + .section slider-component.page-width-desktop {
+  max-width: 100%;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Remove grid gap so cards sit flush like Figma */
+.isaboko-hero-section + .section .product-grid {
+  column-gap: 0;
+  row-gap: 0;
+}
+
+/* Reposition slider arrows to overlay on product images (Figma style) */
+.isaboko-hero-section + .section .slider-buttons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+  padding: 0;
+  z-index: 2;
+}
+
+.isaboko-hero-section + .section .slider-button {
+  pointer-events: auto;
+  background: rgba(0, 0, 0, 0.6);
+  color: var(--isaboko-white);
+  border: none;
+  width: 36px;
+  height: 36px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  min-width: 0;
+  min-height: 0;
+  opacity: 1 !important;
+}
+
+.isaboko-hero-section + .section .slider-button .icon {
+  color: var(--isaboko-white);
+  width: 10px;
+  height: 10px;
+}
+
+/* Hide the "1 / 2" counter */
+.isaboko-hero-section + .section .slider-counter {
+  display: none;
+}
+
+/* Cards: no borders, no shadows, transparent backgrounds (Figma: edge-to-edge on black) */
+.isaboko-hero-section + .section .card__inner {
+  border: none;
+}
+.isaboko-hero-section + .section .card__inner::after {
+  display: none;
+}
+
+/* Product info below images: transparent bg inherits dark scheme (matches Figma) */
+.isaboko-hero-section + .section .card-wrapper > .card > .card__content {
+  background: transparent;
+  padding: 10px 8px 16px;
+}
+
+/* Product name + price on same row */
+.isaboko-hero-section + .section .card-information {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.isaboko-hero-section + .section .card-information .price {
+  margin: 0;
+}
+
+/* Remove bottom padding */
+.isaboko-hero-section + .section .collection {
+  padding-bottom: 0 !important;
+}
+
+/* Remove View All underline (Figma shows clean link) */
+.isaboko-hero-section + .section .collection__view-all .underlined-link {
+  text-decoration: none;
+}
+
+
+
+/* Hide the "Sold out" badges */
+.isaboko-hero-section + .section .card__badge {
+  display: none;
+}
+
+/* ----------------------------------------------------------------
+ *  CATEGORY TILES — 2x2 grid of image tiles with overlaid labels.
+ *  Section: sections/isaboko-category-tiles.liquid
+ * ---------------------------------------------------------------- */
+.isaboko-categories {
+  width: 100%;
+}
+
+.isaboko-categories__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+@media (min-width: 750px) {
+  .isaboko-categories__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.isaboko-categories__tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.isaboko-categories__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 400ms ease;
+}
+
+.isaboko-categories__tile:hover .isaboko-categories__img {
+  transform: scale(1.03);
+}
+
+.isaboko-categories__placeholder {
+  width: 100%;
+  height: 100%;
+  background: #333;
+}
+
+.isaboko-categories__placeholder svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Semi-transparent gradient at the bottom of each tile */
+.isaboko-categories__tile::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.isaboko-categories__label {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 1;
+  background: var(--isaboko-white);
+  color: var(--isaboko-black);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  line-height: 32px;
+}
+
+@media (min-width: 990px) {
+  .isaboko-categories__label {
+    bottom: 20px;
+    right: 20px;
+    font-size: 28px;
+  }
+}
+
+.isaboko-categories__border {
+  height: 4px;
+  background: var(--isaboko-lime);
+}
+
+/* ----------------------------------------------------------------
+ *  NEWSLETTER BAR — lime full-width signup strip with email form.
+ *  Section: sections/isaboko-newsletter.liquid
+ * ---------------------------------------------------------------- */
+.isaboko-newsletter {
+  background: var(--isaboko-lime);
+  width: 100%;
+  padding: 16px 24px;
+}
+
+.isaboko-newsletter__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+@media (max-width: 749px) {
+  .isaboko-newsletter__inner {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.isaboko-newsletter__text {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--isaboko-black);
+  white-space: nowrap;
+}
+
+.isaboko-newsletter__form {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-shrink: 0;
+}
+
+.isaboko-newsletter__field-wrap {
+  display: flex;
+  align-items: stretch;
+}
+
+.isaboko-newsletter__input {
+  background: var(--isaboko-white);
+  border: 1px solid var(--isaboko-black);
+  padding: 10px 16px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--isaboko-black);
+  min-width: 200px;
+  outline: none;
+}
+
+.isaboko-newsletter__input::placeholder {
+  color: #999;
+}
+
+.isaboko-newsletter__submit {
+  background: var(--isaboko-black);
+  color: var(--isaboko-white);
+  border: 1px solid var(--isaboko-black);
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: opacity var(--isaboko-transition);
+}
+
+.isaboko-newsletter__submit:hover {
+  opacity: 0.85;
+}
+
+/* ----------------------------------------------------------------
+ *  PATCH CLUB — split 50/50 layout: text left, image right.
+ *  Section: sections/isaboko-patch-club.liquid
+ * ---------------------------------------------------------------- */
+.isaboko-patch-club {
+  background: var(--isaboko-white);
+  border-top: 1px solid var(--isaboko-black);
+}
+
+.isaboko-patch-club__inner {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 990px) {
+  .isaboko-patch-club__inner {
+    flex-direction: row;
+  }
+}
+
+.isaboko-patch-club__text {
+  flex: 1 1 50%;
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+@media (min-width: 990px) {
+  .isaboko-patch-club__text {
+    padding: 80px 60px;
+  }
+}
+
+.isaboko-patch-club__heading {
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: var(--isaboko-black);
+  margin: 0 0 20px;
+}
+
+.isaboko-patch-club__subheading {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--isaboko-black);
+  margin: 0 0 16px;
+}
+
+.isaboko-patch-club__description {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--isaboko-black);
+  margin: 0 0 40px;
+}
+
+.isaboko-patch-club__images {
+  flex: 0 0 50%;
+}
+
+.isaboko-patch-club__image-wrap {
+  height: 400px;
+}
+
+@media (min-width: 990px) {
+  .isaboko-patch-club__image-wrap {
+    height: 540px;
+  }
+}
+
+.isaboko-patch-club__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+}
+
+.isaboko-patch-club__placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  background: var(--isaboko-off-white);
+}
+
+.isaboko-patch-club__placeholder svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ----------------------------------------------------------------
+ *  PROCESS — "What We Do" split layout: image left, text right.
+ *  Section: sections/isaboko-process.liquid
+ * ---------------------------------------------------------------- */
+.isaboko-process {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  align-items: stretch;
+  background: var(--isaboko-white);
+  border-top: 1px solid var(--isaboko-black);
+}
+
+@media (min-width: 990px) {
+  .isaboko-process {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.isaboko-process__image {
+  overflow: hidden;
+  height: 400px;
+}
+
+@media (min-width: 990px) {
+  .isaboko-process__image {
+    height: 540px;
+  }
+}
+
+.isaboko-process__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.isaboko-process__placeholder {
+  width: 100%;
+  height: 100%;
+  background: #eee;
+}
+
+.isaboko-process__placeholder svg {
+  width: 100%;
+  height: 100%;
+}
+
+.isaboko-process__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 60px 40px;
+}
+
+@media (min-width: 990px) {
+  .isaboko-process__content {
+    padding: 80px 60px;
+  }
+}
+
+.isaboko-process__heading {
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: var(--isaboko-black);
+  margin: 0 0 20px;
+}
+
+.isaboko-process__description {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--isaboko-black);
+  margin: 0 0 40px;
+}
+
+/* ----------------------------------------------------------------
+ *  LOOKBOOK — editorial image grid on black background with lime overlays.
+ *  Section: sections/isaboko-lookbook.liquid
+ * ---------------------------------------------------------------- */
+.isaboko-lookbook {
+  background: var(--isaboko-black);
+  padding: 48px 0 0;
+}
+
+.isaboko-lookbook__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 24px;
+  margin-bottom: 32px;
+}
+
+@media (min-width: 990px) {
+  .isaboko-lookbook__header {
+    padding: 0 48px;
+    margin-bottom: 40px;
+  }
+}
+
+.isaboko-lookbook__heading {
+  color: var(--isaboko-white);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.isaboko-lookbook__view-all {
+  color: var(--isaboko-white);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.isaboko-lookbook__view-all:hover {
+  color: var(--isaboko-lime);
+}
+
+.isaboko-lookbook__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+}
+
+@media (min-width: 750px) {
+  .isaboko-lookbook__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.isaboko-lookbook__item {
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 750px) {
+  .isaboko-lookbook__item--wide {
+    grid-column: span 2;
+  }
+}
+
+.isaboko-lookbook__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.isaboko-lookbook__image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: #111;
+}
+
+.isaboko-lookbook__item--wide .isaboko-lookbook__image-wrapper {
+  aspect-ratio: 3 / 1;
+}
+
+.isaboko-lookbook__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.isaboko-lookbook__placeholder {
+  width: 100%;
+  height: 100%;
+  background: #222;
+}
+
+.isaboko-lookbook__placeholder svg {
+  width: 100%;
+  height: 100%;
+}
+
+.isaboko-lookbook__label {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background: var(--isaboko-white);
+  color: var(--isaboko-black);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  line-height: 32px;
+  padding: 4px 8px;
+  z-index: 1;
+}
+
+@media (min-width: 990px) {
+  .isaboko-lookbook__label {
+    bottom: 20px;
+    right: 20px;
+    font-size: 28px;
+  }
+}
+
+.isaboko-lookbook__newsletter {
+  background: var(--isaboko-black);
+  border-top: 1px solid rgba(202, 255, 0, 0.2);
+  padding: 20px 24px;
+  text-align: center;
+  margin-top: 4px;
+}
+
+@media (min-width: 990px) {
+  .isaboko-lookbook__newsletter {
+    padding: 24px 48px;
+  }
+}
+
+.isaboko-lookbook__newsletter-link,
+.isaboko-lookbook__newsletter-text {
+  color: var(--isaboko-lime);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.isaboko-lookbook__newsletter-link:hover {
+  text-decoration: underline;
+}
+
+/* ----------------------------------------------------------------
+ *  FOOTER — custom branded footer matching Figma.
+ *  Section: sections/isaboko-footer.liquid
+ * ---------------------------------------------------------------- */
+.isaboko-footer {
+  background: var(--isaboko-white);
+  border-top: 2px solid var(--isaboko-black);
+  color: var(--isaboko-black);
+}
+
+.isaboko-footer__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 40px 48px 32px;
+}
+
+@media (max-width: 749px) {
+  .isaboko-footer__inner {
+    padding: 32px 24px 24px;
+  }
+}
+
+.isaboko-footer__brand {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.isaboko-footer__nav {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 989px) {
+  .isaboko-footer__nav {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px 16px;
+  }
+}
+
+@media (max-width: 749px) {
+  .isaboko-footer__nav {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.isaboko-footer__col-heading {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+}
+
+.isaboko-footer__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.isaboko-footer__links li {
+  margin-bottom: 8px;
+}
+
+.isaboko-footer__links a {
+  color: var(--isaboko-black);
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 1.5;
+  transition: opacity var(--isaboko-transition);
+}
+
+.isaboko-footer__links a:hover {
+  opacity: 0.6;
+}
+
+.isaboko-footer__social {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.isaboko-footer__social-link {
+  color: var(--isaboko-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--isaboko-transition);
+}
+
+.isaboko-footer__social-link:hover {
+  opacity: 0.6;
+}
+
+.isaboko-footer__bottom {
+  background: var(--isaboko-red);
+  color: var(--isaboko-white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 48px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 749px) {
+  .isaboko-footer__bottom {
+    padding: 12px 24px;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
+
+.isaboko-footer__copyright {
+  text-transform: uppercase;
+}
+
+.isaboko-footer__region {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.isaboko-footer__currency-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.isaboko-footer__currency-select {
+  background: transparent;
+  color: var(--isaboko-white);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 4px 8px;
+  font-size: 11px;
+  font-family: inherit;
+}
+
+.isaboko-footer__currency-btn {
+  background: transparent;
+  color: var(--isaboko-white);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Hide Dawn's default footer when isaboko footer is active */
+.isaboko-footer-section + .footer,
+.footer:has(+ .isaboko-footer-section) {
+  display: none;
+}
+
+/* ----------------------------------------------------------------
  *  §24 FLAT — no rounded corners, no shadows on brand surfaces.
  *  Dawn's settings already drive radius=0/shadow-opacity=0 for buttons,
  *  cards, and inputs (see config/settings_data.json). This is a safety
@@ -454,6 +1528,9 @@ h3,
  * ---------------------------------------------------------------- */
 .isaboko-button,
 .isaboko-topbar,
+.isaboko-newsletter,
+.isaboko-lookbook,
+.isaboko-footer,
 .header__heading-link .h2 {
   border-radius: 0;
   box-shadow: none;

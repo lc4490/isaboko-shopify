@@ -1,0 +1,93 @@
+{%- comment -%}
+  Isaboko "What We Do" process section — split layout.
+  Desktop: left image (50%) + right text content (50%).
+  Mobile: stacks vertically (image on top, text below).
+  CSS lives in assets/isaboko.css under "PROCESS".
+{%- endcomment -%}
+
+<section class="isaboko-process" data-section-id="{{ section.id }}">
+  <div class="isaboko-process__image">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 1200 | image_tag:
+        class: 'isaboko-process__img',
+        loading: 'lazy',
+        widths: '400, 600, 800, 1200',
+        sizes: '(min-width: 990px) 50vw, 100vw'
+      }}
+    {%- else -%}
+      {%- assign process_fallback = collections['all'].products[14].featured_image -%}
+      {%- if process_fallback != blank -%}
+        {{ process_fallback | image_url: width: 1200 | image_tag:
+          class: 'isaboko-process__img',
+          loading: 'lazy',
+          widths: '400, 600, 800, 1200',
+          sizes: '(min-width: 990px) 50vw, 100vw'
+        }}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'isaboko-process__placeholder' }}
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+
+  <div class="isaboko-process__content">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="isaboko-process__heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.description != blank -%}
+      <p class="isaboko-process__description">{{ section.settings.description | escape }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank -%}
+      <a
+        href="{{ section.settings.cta_link | default: '/blogs/journal/our-mission' }}"
+        class="isaboko-button isaboko-button--black"
+      >
+        {{ section.settings.cta_text | escape }} &rarr;
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Process (Isaboko)",
+  "tag": "section",
+  "class": "isaboko-process-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WHAT WE DO AND HOW WE DO IT?"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Exclusive screenprinted fabric from Japan. Boro techniques. Quilted Indigo. Patchworking. Silk. Reimagined into one-of-a-kind garments."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "OUR MISSION"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Process (Isaboko)"
+    }
+  ]
+}
+{% endschema %}

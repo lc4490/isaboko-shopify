@@ -1,210 +1,176 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "isaboko_hero": {
+      "type": "isaboko-hero",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "slide_1": {
+          "type": "slide",
           "settings": {
-            "heading": "Image banner",
-            "heading_size": "h0"
+            "heading": "ZATSUYO JACKET",
+            "description": "Turning vintage kimonos and obis into new pieces, and honoring the weavers, dyers, and silkworms of the original materials."
           }
         },
-        "text": {
-          "type": "text",
+        "slide_2": {
+          "type": "slide",
           "settings": {
-            "text": "Give customers details about the banner image(s) or content on the template.",
-            "text_style": "body"
+            "heading": "ZATSUYO JACKET",
+            "description": "One-of-a-kind pieces, each cut from a different vintage kimono. No two are alike."
           }
         },
-        "button": {
-          "type": "buttons",
+        "slide_3": {
+          "type": "slide",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "heading": "SEND IN YOUR OWN",
+            "description": "Send us your heirloom kimono and we'll transform it into a Zatsuyo Jacket made just for you."
+          }
+        },
+        "slide_4": {
+          "type": "slide",
+          "settings": {
+            "heading": "MADE TO ORDER",
+            "description": "Choose from our curated selection of vintage kimonos and we'll craft your jacket from scratch."
           }
         }
       },
       "block_order": [
-        "heading",
-        "text",
-        "button"
+        "slide_1",
+        "slide_2",
+        "slide_3",
+        "slide_4"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
-      }
-    },
-    "rich_text": {
-      "type": "rich-text",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Talk about your brand",
-            "heading_size": "h1"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "text"
-      ],
-      "settings": {
-        "color_scheme": "scheme-1",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 0
+        "description": "Turning vintage kimonos and obis into new pieces, and honoring the weavers, dyers, and silkworms of the original materials.",
+        "cta_text": "SHOP READY TO SHIP",
+        "cta_link": "/collections/jackets-and-coats"
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "Featured products",
+        "title": "TRENDING PRODUCTS",
         "heading_size": "h2",
-        "collection": "all",
-        "products_to_show": 8,
+        "collection": "new",
+        "products_to_show": 4,
         "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "show_view_all": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
+        "color_scheme": "scheme-2",
+        "show_view_all": true,
+        "view_all_style": "link",
+        "swipe_on_mobile": true,
+        "image_ratio": "portrait",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
         "columns_mobile": "2",
-        "padding_top": 28,
-        "padding_bottom": 36
+        "padding_top": 16,
+        "padding_bottom": 0
       }
     },
-    "collage": {
-      "type": "collage",
+    "category_tiles": {
+      "type": "isaboko-category-tiles",
       "blocks": {
-        "collection-0": {
-          "type": "collection",
+        "tile_new": {
+          "type": "tile",
           "settings": {
-            "collection": ""
+            "label": "NEW",
+            "link": "/collections/new"
           }
         },
-        "product": {
-          "type": "product",
+        "tile_bags": {
+          "type": "tile",
           "settings": {
-            "product": "",
-            "second_image": false
+            "label": "BAGS",
+            "link": "/collections/bags"
           }
         },
-        "collection-1": {
-          "type": "collection",
+        "tile_jackets": {
+          "type": "tile",
           "settings": {
-            "collection": ""
+            "label": "JACKETS",
+            "link": "/collections/jackets-and-coats"
+          }
+        },
+        "tile_accessories": {
+          "type": "tile",
+          "settings": {
+            "label": "ACCESSORIES",
+            "link": "/collections/accessories"
           }
         }
       },
       "block_order": [
-        "collection-0",
-        "product",
-        "collection-1"
+        "tile_new",
+        "tile_bags",
+        "tile_jackets",
+        "tile_accessories"
       ],
+      "settings": {}
+    },
+    "patch_club": {
+      "type": "isaboko-patch-club",
       "settings": {
-        "heading": "Multimedia collage",
-        "heading_size": "h2",
-        "desktop_layout": "left",
-        "mobile_layout": "collage",
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "heading": "PATCH CLUB",
+        "subheading": "5 patches, mailed to you once a month",
+        "description": "Handmade from vintage kimonos, straight from our studio. A piece of inspiration for you to mend your garments with.",
+        "cta_text": "SHOP READY TO SHIP",
+        "cta_link": "/products/patch-club"
       }
     },
-    "video": {
-      "type": "video",
+    "process": {
+      "type": "isaboko-process",
       "settings": {
-        "heading": "",
-        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
-        "heading_size": "h1",
-        "description": "",
-        "full_width": false,
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "heading": "WHAT WE DO AND HOW WE DO IT?",
+        "description": "Exclusive screenprinted fabric from Japan. Boro techniques. Quilted Indigo. Patchworking. Silk. Reimagined into one-of-a-kind garments.",
+        "cta_text": "OUR MISSION",
+        "cta_link": "/blogs/journal/our-mission"
       }
     },
-    "multicolumn": {
-      "type": "multicolumn",
+    "lookbook": {
+      "type": "isaboko-lookbook",
       "blocks": {
-        "column1": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
+        "photo_1": {
+          "type": "photo",
+          "settings": { "label": "CAMP ISABOKO", "column_span": "1", "link": "/pages/camp-isaboko-1", "image": "shopify://shop_images/camp_isaboko_fashion_trust_portfolio13.jpg" }
         },
-        "column2": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
+        "photo_2": {
+          "type": "photo",
+          "settings": { "label": "PROSPECT PARK", "column_span": "1", "link": "/pages/solarpunk-city", "image": "shopify://shop_images/24590020.jpg" }
         },
-        "column3": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
+        "photo_3": {
+          "type": "photo",
+          "settings": { "label": "EVERYTHING BAD I'VE EVER DONE", "column_span": "1", "link": "/pages/everything-bad-ive-ever-done", "image": "shopify://shop_images/Redress_Design_Award_2021_Finalist_Collection_-_Isabella_Kostrzewa_USA_-min.jpg" }
+        },
+        "photo_4": {
+          "type": "photo",
+          "settings": { "label": "SOLAR PUNK CITY", "column_span": "1", "link": "/pages/solarpunk-punk", "image": "shopify://shop_images/solarpunk_city_2_358401c1-7d10-4a3f-803a-5e3ed29556ab.jpg" }
         }
       },
       "block_order": [
-        "column1",
-        "column2",
-        "column3"
+        "photo_1",
+        "photo_2",
+        "photo_3",
+        "photo_4"
       ],
       "settings": {
-        "title": "",
-        "heading_size": "h1",
-        "image_width": "third",
-        "image_ratio": "adapt",
-        "columns_desktop": 3,
-        "column_alignment": "center",
-        "background_style": "none",
-        "button_label": "",
-        "button_link": "",
-        "swipe_on_mobile": false,
-        "color_scheme": "scheme-1",
-        "columns_mobile": "1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "heading": "PIECES FROM OUR PAST THAT WE'RE HAUNTED BY",
+        "newsletter_text": "",
+        "newsletter_link": ""
+      }
+    },
+    "newsletter": {
+      "type": "isaboko-newsletter",
+      "settings": {
+        "text": "SIGN UP FOR OUR NEWSLETTER",
+        "link": "#"
       }
     }
   },
   "order": [
-    "image_banner",
-    "rich_text",
+    "isaboko_hero",
     "featured_collection",
-    "collage",
-    "video",
-    "multicolumn"
+    "category_tiles",
+    "patch_club",
+    "process",
+    "lookbook",
+    "newsletter"
   ]
 }

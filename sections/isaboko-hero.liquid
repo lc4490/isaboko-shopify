@@ -1,0 +1,219 @@
+{%- comment -%}
+  Isaboko hero — split layout per Figma homepage prototype (435:8501).
+  Left: full-bleed image slideshow with text overlay + dot pagination.
+  Right: description text, detail image, CTA button, prev/next arrows.
+  CSS lives in assets/isaboko.css under "HERO".
+{%- endcomment -%}
+
+{%- assign slides = section.blocks | where: 'type', 'slide' -%}
+{%- assign slide_count = slides.size -%}
+
+<section class="isaboko-hero" data-section-id="{{ section.id }}">
+  {%- comment -%} LEFT — image slideshow {%- endcomment -%}
+  <div class="isaboko-hero__left">
+    <div class="isaboko-hero__slides">
+      {%- for block in slides -%}
+        <div
+          class="isaboko-hero__slide{% if forloop.first %} isaboko-hero__slide--active{% endif %}"
+          data-slide-index="{{ forloop.index0 }}"
+          {{ block.shopify_attributes }}
+        >
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 1800 | image_tag:
+              class: 'isaboko-hero__slide-img',
+              loading: 'eager',
+              widths: '600, 900, 1200, 1800',
+              sizes: '(min-width: 990px) 67vw, 100vw'
+            }}
+          {%- else -%}
+            {%- assign hero_fallback = collections['zatsuyo-jacket'].products[forloop.index0].featured_image -%}
+            {%- if hero_fallback != blank -%}
+              {{ hero_fallback | image_url: width: 1800 | image_tag:
+                class: 'isaboko-hero__slide-img',
+                loading: 'eager',
+                widths: '600, 900, 1200, 1800',
+                sizes: '(min-width: 990px) 67vw, 100vw'
+              }}
+            {%- else -%}
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'isaboko-hero__slide-placeholder' }}
+            {%- endif -%}
+          {%- endif -%}
+
+          <div class="isaboko-hero__slide-overlay">
+            {%- if block.settings.heading != blank -%}
+              <h2 class="isaboko-hero__slide-heading">{{ block.settings.heading | escape }}</h2>
+            {%- endif -%}
+            {%- if block.settings.description != blank -%}
+              <p class="isaboko-hero__slide-text">{{ block.settings.description | escape }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+
+      {%- if slides.size == 0 -%}
+        <div class="isaboko-hero__slide isaboko-hero__slide--active" data-slide-index="0">
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'isaboko-hero__slide-placeholder' }}
+          <div class="isaboko-hero__slide-overlay">
+            <h2 class="isaboko-hero__slide-heading">JACKET</h2>
+            <p class="isaboko-hero__slide-text">Turning vintage kimonos and obis into new pieces, and honoring the weavers, dyers, and silkworms of the original materials.</p>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- assign dot_count = slide_count | at_least: 1 -%}
+    <div class="isaboko-hero__dots">
+      {%- for i in (1..dot_count) -%}
+        <button
+          class="isaboko-hero__dot{% if forloop.first %} isaboko-hero__dot--active{% endif %}"
+          data-dot-index="{{ forloop.index0 }}"
+          aria-label="Go to slide {{ forloop.index }}"
+          type="button"
+        ></button>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- comment -%} RIGHT — info panel {%- endcomment -%}
+  <div class="isaboko-hero__right">
+    <p class="isaboko-hero__description">{{ section.settings.description | escape }}</p>
+
+    <div class="isaboko-hero__detail-image">
+      {%- if section.settings.detail_image != blank -%}
+        {{ section.settings.detail_image | image_url: width: 800 | image_tag:
+          class: 'isaboko-hero__detail-img',
+          loading: 'eager',
+          widths: '300, 400, 600, 800',
+          sizes: '(min-width: 990px) 30vw, 100vw'
+        }}
+      {%- else -%}
+        {%- assign detail_fallback = collections['all'].products[11].featured_image -%}
+        {%- if detail_fallback != blank -%}
+          {{ detail_fallback | image_url: width: 800 | image_tag:
+            class: 'isaboko-hero__detail-img',
+            loading: 'eager',
+            widths: '300, 400, 600, 800',
+            sizes: '(min-width: 990px) 30vw, 100vw'
+          }}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'isaboko-hero__detail-placeholder' }}
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    <a href="{{ section.settings.cta_link | default: '/collections/all' }}" class="isaboko-hero__cta">
+      {{ section.settings.cta_text | default: 'SHOP READY TO SHIP' | escape }}
+      <span class="isaboko-hero__cta-arrow">&rarr;</span>
+    </a>
+
+    <div class="isaboko-hero__arrows">
+      <button class="isaboko-hero__arrow isaboko-hero__arrow--prev" aria-label="Previous slide" type="button">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 4L7 10L13 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="isaboko-hero__arrow isaboko-hero__arrow--next" aria-label="Next slide" type="button">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 4L13 10L7 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var section = document.querySelector('[data-section-id="{{ section.id }}"]');
+    if (!section) return;
+
+    var slides = section.querySelectorAll('.isaboko-hero__slide');
+    var dots = section.querySelectorAll('.isaboko-hero__dot');
+    var prevBtn = section.querySelector('.isaboko-hero__arrow--prev');
+    var nextBtn = section.querySelector('.isaboko-hero__arrow--next');
+    var current = 0;
+    var total = slides.length;
+
+    function goTo(idx) {
+      if (idx < 0) idx = total - 1;
+      if (idx >= total) idx = 0;
+      slides[current].classList.remove('isaboko-hero__slide--active');
+      dots[current] && dots[current].classList.remove('isaboko-hero__dot--active');
+      current = idx;
+      slides[current].classList.add('isaboko-hero__slide--active');
+      dots[current] && dots[current].classList.add('isaboko-hero__dot--active');
+    }
+
+    dots.forEach(function (dot, i) {
+      dot.addEventListener('click', function () { goTo(i); });
+    });
+
+    if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Hero (Isaboko)",
+  "tag": "section",
+  "class": "isaboko-hero-section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Right panel description",
+      "default": "Turning vintage kimonos and obis into new pieces, and honoring the weavers, dyers, and silkworms of the original materials."
+    },
+    {
+      "type": "image_picker",
+      "id": "detail_image",
+      "label": "Detail image (right panel)"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA button text",
+      "default": "SHOP READY TO SHIP"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Slide image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "JACKET"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Turning vintage kimonos and obis into new pieces, and honoring the weavers, dyers, and silkworms of the original materials."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero (Isaboko)",
+      "blocks": [
+        { "type": "slide" }
+      ]
+    }
+  ]
+}
+{% endschema %}

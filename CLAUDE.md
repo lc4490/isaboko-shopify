@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Source of truth
 
-**[DESIGN_SPEC.md](DESIGN_SPEC.md) at the repo root is the locked design specification.** Read it before answering any design or styling question. It covers brand identity, color/typography/spacing scales, every page, components, buttons, breakpoints, animation, and an explicit "what not to do" list. The user has said: do not deviate from the spec.
+**DESIGN_SPEC.md is the locked design specification** — referenced throughout the codebase and this document. It covers brand identity, color/typography/spacing scales, every page, components, buttons, breakpoints, animation, and an explicit "what not to do" list. The user has said: do not deviate from the spec. **Note:** DESIGN_SPEC.md may not be checked into the repo (it was authored externally). If it's absent, rely on the implemented values in `assets/isaboko.css` and the "Locked user overrides" section below as the effective spec.
 
 This document covers the implementation plumbing that DESIGN_SPEC.md doesn't — how Dawn is configured, where brand overrides live, and how to add new sections without breaking the architecture.
 
@@ -54,7 +54,7 @@ Each section's chosen scheme drives Dawn's `--color-background`, `--color-foregr
 
 ### Top bar (custom section)
 
-[sections/isaboko-topbar.liquid](sections/isaboko-topbar.liquid) is the black scrolling ticker from spec §6. It replaces Dawn's `announcement-bar` in [sections/header-group.json](sections/header-group.json). Dawn's [sections/announcement-bar.liquid](sections/announcement-bar.liquid) is left on disk but no longer referenced. CSS lives in `isaboko.css` under "§6 TOP BAR" — keyframes preserved exactly as specced (`translateX(100%)` → `-100%`, 20s linear infinite).
+[sections/isaboko-topbar.liquid](sections/isaboko-topbar.liquid) is a **static centered banner** (black background, white 13px text, ~36px height). It replaces Dawn's `announcement-bar` in [sections/header-group.json](sections/header-group.json). Dawn's [sections/announcement-bar.liquid](sections/announcement-bar.liquid) is left on disk but no longer referenced. CSS lives in `isaboko.css` under "§6 TOP BAR". Note: DESIGN_SPEC.md §6 originally specified a scrolling ticker — the user overrode this to a single static centered line on 2026-05-18. Don't reintroduce marquee/animation without explicit instruction.
 
 ### Header
 
@@ -64,9 +64,9 @@ Uses **Dawn's stock middle-center layout** — nav links on the left of the logo
 - `logo_position: "middle-center"` → Dawn's built-in centered-logo grid
 - `menu_type_desktop: "mega"` → activates [snippets/header-mega-menu.liquid](snippets/header-mega-menu.liquid) per spec §7 mega-dropdown requirement
 - `enable_country_selector: true` → renders "UNITED STATES (USD)" on the right per spec
-- `padding_top: 18`, `padding_bottom: 18` → ~60px bar height with the 24px logo badge
+- `padding_top: 24`, `padding_bottom: 24` → taller bar matching the user's reference image
 
-The "logo badge" (black rectangle with red `• ISABOKO •` inside) is pure CSS — the Liquid still renders `{{ shop.name }}`, and `.header__heading-link .h2` styles it as a black-background span with red text. The `•` characters come from `::before` / `::after` so the merchant can keep `shop.name = "ISABOKO"` in admin.
+The "logo badge" (black rectangle with **lime border and lime `★ ISABOKO ★`** inside) is pure CSS — the Liquid still renders `{{ shop.name }}`, and `.header__heading-link .h2` styles it as a black-background span with lime text and a 2px lime border. The `★` characters come from `::before` / `::after` so the merchant can keep `shop.name = "ISABOKO"` in admin. (Note: DESIGN_SPEC.md §7 originally specified red text + bullets; lime stars + border is a locked user override from 2026-05-18.)
 
 **Note:** earlier work split the nav into left/right halves around the logo. That was wrong per spec §7 (which puts all nav links left of the logo). Those customizations were reverted on 2026-05-18. `snippets/header-dropdown-menu.liquid` is pristine Dawn; **`sections/header.liquid` was re-edited later** (also 2026-05-18) to (a) render `isaboko-mega-menu` in the `menu_type_desktop == 'mega'` branch and (b) add a `mega_menu_image` block type — see "Mega menu" below.
 
@@ -117,4 +117,19 @@ CSS vars + reset → top bar → **header/nav** → footer → homepage → prod
 - **Component CSS files** — Many Dawn sections load their own `component-*.css` from `assets/`. When customizing a component, prefer overriding in `isaboko.css` over editing the component CSS in place.
 - **No new color tokens** — All theme work derives from the six brand colors in DESIGN_SPEC.md §2. If an off-shade is needed, use opacity on an existing token, not a new one.
 - **No rounded corners, no shadows** — Spec §24. Dawn's settings already drive radius/shadow values to 0 — don't reintroduce them in component styles.
-- **Dawn files modified for Isaboko**: `config/settings_data.json` (palette), `sections/header-group.json` (header config + topbar wiring), `layout/theme.liquid` (one `<link>` for isaboko.css). Header.liquid and header-dropdown-menu.liquid are pristine Dawn — don't customize them; override in CSS instead.
+- **Dawn files modified for Isaboko**: `config/settings_data.json` (palette), `sections/header-group.json` (header config + topbar wiring), `layout/theme.liquid` (one `<link>` for isaboko.css), `sections/header.liquid` (renders `isaboko-mega-menu` snippet in the mega branch + adds `mega_menu_image` block type). `snippets/header-dropdown-menu.liquid` is pristine Dawn — don't customize it; override in CSS instead.
+
+## Locked user overrides (deviations from DESIGN_SPEC.md)
+
+These were locked by the user on 2026-05-18 based on a reference screenshot. They supersede the spec on the listed points. Don't revert them unless the user explicitly asks.
+
+| What | Spec said | Locked override |
+|---|---|---|
+| **Top bar** (§6) | Scrolling ticker, text repeated 3×, uppercase | Static centered single line, merchant-typed casing preserved |
+| **Logo badge** (§7) | Black bg, white-or-red text, bullet `•` flanking | Black bg, **lime text**, **2px lime border**, **★ stars** flanking |
+| **Nav link typography** (§7) | 13px / 600 / 0.08em | **16px / 300 / 0.05em** (localization selector: 16px / 700 / 0.05em) |
+| **Dropdown trigger** (§7) | Click to open | **Hover to open** (click is keyboard/touch fallback) |
+| **Cart count bubble** | Scheme-3 default (black-on-white) | **Lime background, black text** |
+| **Nav underlines** | Not specified | **Never underline nav links** in any state (idle, hover, active, open). Use weight, color, or `+`/`−` glyph instead. |
+| **Header padding** | 20/20 | **24/24** (taller bar per reference image) |
+| **Top bar text size** (§6) | 12px / 0.1em spacing | **13px / 0.04em spacing** |

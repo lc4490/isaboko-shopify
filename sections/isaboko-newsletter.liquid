@@ -1,0 +1,46 @@
+{%- comment -%}
+  Isaboko newsletter bar — lime full-width strip with email signup form.
+  Visual styles live in assets/isaboko.css under "NEWSLETTER BAR".
+{%- endcomment -%}
+
+<div class="isaboko-newsletter" role="region" aria-label="Newsletter signup">
+  <div class="isaboko-newsletter__inner">
+    <span class="isaboko-newsletter__text">{{ section.settings.text | default: 'SIGN UP FOR OUR NEWSLETTER' }}</span>
+    {%- form 'customer', class: 'isaboko-newsletter__form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <div class="isaboko-newsletter__field-wrap">
+        <input
+          type="email"
+          name="contact[email]"
+          class="isaboko-newsletter__input"
+          placeholder="Email address"
+          required
+          autocomplete="email"
+          aria-label="Email address"
+        >
+        <button type="submit" class="isaboko-newsletter__submit">
+          SUBSCRIBE&nbsp;&rarr;
+        </button>
+      </div>
+    {%- endform -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Newsletter Bar (Isaboko)",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Bar text",
+      "default": "SIGN UP FOR OUR NEWSLETTER"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter Bar (Isaboko)"
+    }
+  ]
+}
+{% endschema %}

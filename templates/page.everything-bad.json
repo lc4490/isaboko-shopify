@@ -1,0 +1,183 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "video_runway": {
+      "type": "video",
+      "settings": {
+        "heading": "",
+        "heading_size": "h2",
+        "enable_video_looping": true,
+        "video": "shopify://files/videos/Redress Final Runway.mp4",
+        "description": "",
+        "full_width": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "caption": {
+      "type": "rich-text",
+      "blocks": {
+        "text_1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Hong Kong Fashion Week September 2021. Redress Design Awards.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_1"
+      ],
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "scheme-1",
+        "full_width": true,
+        "padding_top": 16,
+        "padding_bottom": 16
+      }
+    },
+    "gallery": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Everything_Bad_Mood_Board_FINAL_copy.jpg",
+            "heading": "",
+            "subheading": "",
+            "show_text_box": false,
+            "button_label": ""
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Redress_Design_Award_2021_Finalist_Collection_-_Isabella_Kostrzewa_USA_-min.jpg",
+            "heading": "",
+            "subheading": "",
+            "show_text_box": false,
+            "button_label": ""
+          }
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/20210730_redress1665.jpg",
+            "heading": "",
+            "subheading": "",
+            "show_text_box": false,
+            "button_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3"
+      ],
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "adapt",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5
+      }
+    },
+    "photos": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_4": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/ORC-106_copy.jpg",
+            "heading": "",
+            "subheading": "",
+            "show_text_box": false,
+            "button_label": ""
+          }
+        },
+        "slide_5": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/ORC-38_copy.jpg",
+            "heading": "",
+            "subheading": "",
+            "show_text_box": false,
+            "button_label": ""
+          }
+        },
+        "slide_6": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/ORC-98_copy.jpg",
+            "heading": "",
+            "subheading": "",
+            "show_text_box": false,
+            "button_label": ""
+          }
+        },
+        "slide_7": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/ORC-18.jpg",
+            "heading": "",
+            "subheading": "",
+            "show_text_box": false,
+            "button_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_4",
+        "slide_5",
+        "slide_6",
+        "slide_7"
+      ],
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "adapt",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5
+      }
+    },
+    "credit": {
+      "type": "rich-text",
+      "blocks": {
+        "text_2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Photography by Charlie Johnson</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_2"
+      ],
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "scheme-1",
+        "full_width": true,
+        "padding_top": 16,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "video_runway",
+    "caption",
+    "gallery",
+    "photos",
+    "credit"
+  ]
+}

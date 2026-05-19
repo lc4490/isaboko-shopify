@@ -1,0 +1,107 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "faq": {
+      "type": "collapsible-content",
+      "blocks": {
+        "row_1": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What materials do you use?",
+            "icon": "none",
+            "row_content": "<p>We use vintage kimonos and obis sourced from Japan, along with reclaimed fabrics and sustainable materials.</p>"
+          }
+        },
+        "row_2": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How do I care for my garment?",
+            "icon": "none",
+            "row_content": "<p>We recommend spot cleaning, hand washing cold, and air drying. See our <a href=\"/pages/garment-care\">Garment Care</a> page for full details.</p>"
+          }
+        },
+        "row_3": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do you offer custom orders?",
+            "icon": "none",
+            "row_content": "<p>Yes! Visit our <a href=\"/collections/made-to-order\">Made to Order</a> collection or <a href=\"/pages/bridal\">Bridal</a> page for custom options.</p>"
+          }
+        },
+        "row_4": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What are your shipping options?",
+            "icon": "none",
+            "row_content": "<p>Please see our <a href=\"/pages/shipping-returns-repairs\">Shipping, Returns & Repairs</a> page for details.</p>"
+          }
+        },
+        "row_5": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I send in my own kimono?",
+            "icon": "none",
+            "row_content": "<p>Absolutely. Send us your heirloom kimono and we'll transform it into a Zatsuyo Jacket made just for you. See our <a href=\"/pages/size-chart\">Size Chart</a> for details.</p>"
+          }
+        },
+        "row_6": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What sizes do you offer?",
+            "icon": "none",
+            "row_content": "<p>Our Zatsuyo Jackets come in three sizes. Check our <a href=\"/pages/size-chart\">Size Guide</a> for detailed measurements and fit photos.</p>"
+          }
+        },
+        "row_7": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How long does a custom order take?",
+            "icon": "none",
+            "row_content": "<p>Custom orders typically take 4-8 weeks depending on complexity. Email us at <a href=\"mailto:hello@isaboko.com\">hello@isaboko.com</a> for a timeline estimate.</p>"
+          }
+        },
+        "row_8": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What is Patch Club?",
+            "icon": "none",
+            "row_content": "<p>Patch Club is a monthly subscription \u2014 5 patches mailed to you once a month, handmade from vintage kimonos. Visit <a href=\"/products/patch-club\">Patch Club</a> to learn more.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3",
+        "row_4",
+        "row_5",
+        "row_6",
+        "row_7",
+        "row_8"
+      ],
+      "settings": {
+        "caption": "",
+        "heading": "Frequently Asked Questions",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "color_scheme": "scheme-1",
+        "container_color_scheme": "scheme-1",
+        "open_first_collapsible_row": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "faq"
+  ]
+}
