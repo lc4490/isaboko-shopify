@@ -24,81 +24,97 @@
       endif
     -%}
 
-    <product-form
-      class="product-form"
-      data-hide-errors="{{ gift_card_recipient_feature_active }}"
-      data-section-id="{{ section.id }}"
-    >
-      <div class="product-form__error-message-wrapper" role="alert" hidden>
-        <span class="svg-wrapper">
-          {{- 'icon-error.svg' | inline_asset_content -}}
-        </span>
-        <span class="product-form__error-message"></span>
-      </div>
+    {%- liquid
+      assign check_against_inventory = true
+      if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
+        assign check_against_inventory = false
+      endif
+      if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
+        assign quantity_rule_soldout = true
+      endif
+      assign variant_sold_out = false
+      if product.selected_or_first_available_variant.available == false or quantity_rule_soldout or product.selected_or_first_available_variant == null
+        assign variant_sold_out = true
+      endif
+    -%}
 
-      {%- form 'product',
-        product,
-        id: product_form_id,
-        class: 'form',
-        novalidate: 'novalidate',
-        data-type: 'add-to-cart-form'
-      -%}
-        <input
-          type="hidden"
-          name="id"
-          value="{{ product.selected_or_first_available_variant.id }}"
-          {% if product.selected_or_first_available_variant.available == false
-            or quantity_rule_soldout
-            or product.selected_or_first_available_variant == null
-          %}
-            disabled
-          {% endif %}
-          class="product-variant-id"
+    {%- if variant_sold_out -%}
+      <div class="isaboko-notify-me" id="NotifyMe-{{ section_id }}">
+        <button
+          type="button"
+          class="isaboko-notify-me__btn button button--full-width button--primary"
+          onclick="this.style.display='none'; this.nextElementSibling.style.display='block';"
         >
-
-        {%- if gift_card_recipient_feature_active -%}
-          {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
-        {%- endif -%}
-
-        <div class="product-form__buttons">
-          {%- liquid
-            assign check_against_inventory = true
-            if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
-              assign check_against_inventory = false
-            endif
-            if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
-              assign quantity_rule_soldout = true
-            endif
-          -%}
-          <button
-            id="ProductSubmitButton-{{ section_id }}"
-            type="submit"
-            name="add"
-            class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
-            {% if product.selected_or_first_available_variant.available == false
-              or quantity_rule_soldout
-              or product.selected_or_first_available_variant == null
-            %}
-              disabled
-            {% endif %}
-          >
-            <span>
-              {%- if product.selected_or_first_available_variant == null -%}
-                {{ 'products.product.unavailable' | t }}
-              {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
-                {{ 'products.product.sold_out' | t }}
-              {%- else -%}
-                {{ 'products.product.add_to_cart' | t }}
-              {%- endif -%}
-            </span>
-            {%- render 'loading-spinner' -%}
-          </button>
-          {%- if show_dynamic_checkout -%}
-            {{ form | payment_button }}
-          {%- endif -%}
+          NOTIFY ME WHEN BACK IN STOCK
+        </button>
+        <div class="isaboko-notify-me__form-wrapper" style="display: none;">
+          {%- form 'contact' -%}
+            <input type="hidden" name="contact[tags]" value="back-in-stock">
+            <input type="hidden" name="contact[body]" value="Please notify me when {{ product.title | escape }} is back in stock. Product: {{ shop.url }}{{ product.url }}">
+            <div class="isaboko-notify-me__field">
+              <input
+                type="email"
+                name="contact[email]"
+                placeholder="Enter your email"
+                required
+                class="isaboko-notify-me__email"
+                aria-label="Email for back in stock notification"
+              >
+              <button type="submit" class="isaboko-notify-me__submit button button--primary">
+                SUBMIT
+              </button>
+            </div>
+          {%- endform -%}
         </div>
-      {%- endform -%}
-    </product-form>
+      </div>
+    {%- else -%}
+      <product-form
+        class="product-form"
+        data-hide-errors="{{ gift_card_recipient_feature_active }}"
+        data-section-id="{{ section.id }}"
+      >
+        <div class="product-form__error-message-wrapper" role="alert" hidden>
+          <span class="svg-wrapper">
+            {{- 'icon-error.svg' | inline_asset_content -}}
+          </span>
+          <span class="product-form__error-message"></span>
+        </div>
+
+        {%- form 'product',
+          product,
+          id: product_form_id,
+          class: 'form',
+          novalidate: 'novalidate',
+          data-type: 'add-to-cart-form'
+        -%}
+          <input
+            type="hidden"
+            name="id"
+            value="{{ product.selected_or_first_available_variant.id }}"
+            class="product-variant-id"
+          >
+
+          {%- if gift_card_recipient_feature_active -%}
+            {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
+          {%- endif -%}
+
+          <div class="product-form__buttons">
+            <button
+              id="ProductSubmitButton-{{ section_id }}"
+              type="submit"
+              name="add"
+              class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+            >
+              <span>{{ 'products.product.add_to_cart' | t }}</span>
+              {%- render 'loading-spinner' -%}
+            </button>
+            {%- if show_dynamic_checkout -%}
+              {{ form | payment_button }}
+            {%- endif -%}
+          </div>
+        {%- endform -%}
+      </product-form>
+    {%- endif -%}
   {%- else -%}
     <div class="product-form">
       <div class="product-form__buttons form">

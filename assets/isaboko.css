@@ -766,13 +766,13 @@ h3,
   padding-right: 0 !important;
 }
 
-/* Remove grid gap so cards sit flush like Figma */
+/* Thin gap between cards */
 .isaboko-hero-section + .section .product-grid {
-  column-gap: 0;
+  column-gap: 3px;
   row-gap: 0;
 }
 
-/* Reposition slider arrows to overlay on product images (Figma style) */
+/* Reposition slider arrows to overlay on product images */
 .isaboko-hero-section + .section .slider-buttons {
   position: absolute;
   top: 0;
@@ -789,11 +789,11 @@ h3,
 
 .isaboko-hero-section + .section .slider-button {
   pointer-events: auto;
-  background: rgba(0, 0, 0, 0.6);
-  color: var(--isaboko-white);
-  border: none;
-  width: 36px;
-  height: 36px;
+  background: var(--isaboko-white);
+  color: var(--isaboko-black);
+  border: 1px solid var(--isaboko-black);
+  width: 40px;
+  height: 40px;
   display: flex !important;
   align-items: center;
   justify-content: center;
@@ -805,7 +805,7 @@ h3,
 }
 
 .isaboko-hero-section + .section .slider-button .icon {
-  color: var(--isaboko-white);
+  color: var(--isaboko-black);
   width: 10px;
   height: 10px;
 }
@@ -823,22 +823,26 @@ h3,
   display: none;
 }
 
-/* Product info below images: transparent bg inherits dark scheme (matches Figma) */
+/* Product info below images: white strip with black text */
 .isaboko-hero-section + .section .card-wrapper > .card > .card__content {
-  background: transparent;
-  padding: 10px 8px 16px;
+  background: var(--isaboko-white);
+  color: var(--isaboko-black);
+  padding: 12px 12px 16px;
 }
 
-/* Product name + price on same row */
-.isaboko-hero-section + .section .card-information {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 8px;
+.isaboko-hero-section + .section .card__heading a {
+  color: var(--isaboko-black);
 }
+
+
 
 .isaboko-hero-section + .section .card-information .price {
   margin: 0;
+  color: var(--isaboko-black);
+}
+
+.isaboko-hero-section + .section .card-information .price .price-item {
+  color: var(--isaboko-black);
 }
 
 /* Remove bottom padding */
@@ -1619,13 +1623,301 @@ h3,
 }
 
 /* ----------------------------------------------------------------
- *  COLLECTION PAGE — brand treatment for grid + filters.
+ *  NOTIFY ME (sold-out product pages)
  * ---------------------------------------------------------------- */
-.collection .title,
+
+.isaboko-notify-me__btn {
+  background: var(--isaboko-black);
+  color: var(--isaboko-white);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+  padding: 16px 24px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.isaboko-notify-me__btn:hover {
+  background: #222;
+}
+
+.isaboko-notify-me__field {
+  display: flex;
+  gap: 0;
+}
+
+.isaboko-notify-me__email {
+  flex: 1;
+  border: 1px solid var(--isaboko-black);
+  border-right: none;
+  padding: 14px 16px;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+}
+
+.isaboko-notify-me__email:focus {
+  border-color: var(--isaboko-black);
+}
+
+.isaboko-notify-me__submit {
+  background: var(--isaboko-black);
+  color: var(--isaboko-white);
+  border: 1px solid var(--isaboko-black);
+  padding: 14px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.isaboko-notify-me__submit:hover {
+  background: #222;
+}
+
+/* ----------------------------------------------------------------
+ *  COLLECTION PAGE — full redesign per Figma.
+ * ---------------------------------------------------------------- */
+
+/* --- Breadcrumb --- */
+.isaboko-breadcrumb {
+  padding: 12px 48px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.isaboko-breadcrumb a {
+  color: var(--isaboko-gray);
+  text-decoration: none;
+}
+
+.isaboko-breadcrumb span {
+  color: var(--isaboko-black);
+}
+
+/* --- Banner: title left, description right --- */
+.collection-hero {
+  padding: 0 48px 24px !important;
+}
+
+.collection-hero__inner.page-width {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+.collection-hero__text-wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
 .collection-hero__title {
+  font-size: 36px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.collection-hero__description.rte {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--isaboko-gray);
+  margin: 0;
+  padding-top: 8px;
+}
+
+/* --- Filter pills row (active facets) --- */
+.facets-container .active-facets {
+  display: flex !important;
+  gap: 10px;
+  padding: 16px 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.facets-container .active-facets::-webkit-scrollbar {
+  display: none;
+}
+
+.facets-container .active-facets__button,
+.facets-container .active-facets__button-remove {
+  flex-shrink: 0;
+  border: 1px solid var(--isaboko-black);
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  color: var(--isaboko-black);
+  background: var(--isaboko-white);
+  white-space: nowrap;
+}
+
+.facets-container .active-facets__button:hover,
+.facets-container .active-facets__button-remove:hover {
+  background: var(--isaboko-black);
+  color: var(--isaboko-white);
+}
+
+/* --- Dark results bar: count left, FILTER & SORT right --- */
+.isaboko-collection-grid .facets-wrapper {
+  padding: 0 !important;
+  max-width: 100%;
+}
+
+.isaboko-results-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--isaboko-black);
+  color: var(--isaboko-white);
+  padding: 14px 24px;
+}
+
+.isaboko-results-bar__count {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.isaboko-results-bar__filter-btn {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--isaboko-white);
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Hide Dawn's default product count, sort UI, and duplicate mobile pills */
+.isaboko-collection-grid .facets-container-drawer > facet-filters-form:not(.facets-pill),
+.isaboko-collection-grid .facets-container-drawer > .product-count,
+.isaboko-collection-grid .facets-container-drawer > .active-facets-mobile,
+.isaboko-collection-grid .facets-wrapper .facet-filters.sorting {
+  display: none !important;
+}
+
+/* Show drawer on all screen sizes */
+.isaboko-collection-grid .mobile-facets__wrapper {
+  display: block !important;
+}
+
+.isaboko-collection-grid .mobile-facets__open-wrapper {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+
+/* --- Product grid: edge-to-edge --- */
+.isaboko-collection-grid .product-grid {
+  column-gap: 3px;
+  row-gap: 3px;
+}
+
+.isaboko-collection-grid .collection.page-width,
+.isaboko-collection-grid .collection {
+  max-width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Remove card chrome */
+.isaboko-collection-grid .card__inner {
+  border: none;
+}
+
+.isaboko-collection-grid .card__inner::after {
+  display: none;
+}
+
+/* Force uniform image height via cover */
+.isaboko-collection-grid .card__media .media img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* White info strip with black text */
+.isaboko-collection-grid .card-wrapper > .card > .card__content {
+  background: var(--isaboko-white);
+  color: var(--isaboko-black);
+  padding: 12px 12px 16px;
+}
+
+.isaboko-collection-grid .card__heading a {
+  color: var(--isaboko-black);
+}
+
+.isaboko-collection-grid .card-information .price,
+.isaboko-collection-grid .card-information .price .price-item {
+  color: var(--isaboko-black);
+  margin: 0;
+}
+
+/* Sold-out badge */
+.isaboko-collection-grid .card__badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: auto;
+  bottom: auto;
+}
+
+.isaboko-collection-grid .card__badge .badge {
+  background: var(--isaboko-black);
+  color: var(--isaboko-white);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 0;
+}
+
+/* Dim the image for sold-out products */
+.isaboko-collection-grid .card__inner:has(.card__badge .badge) .card__media {
+  opacity: 0.5;
+}
+
+/* Product card info: name + price on same row, variants below */
+.card-wrapper .card__information {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+}
+
+.card-wrapper .card__heading {
+  overflow-x: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.card-wrapper .card__heading::-webkit-scrollbar {
+  display: none;
+}
+
+.card-wrapper .isaboko-card-variants {
+  grid-column: 1 / -1;
 }
 
 /* ----------------------------------------------------------------
@@ -2055,3 +2347,43 @@ h3,
     gap: 20px;
   }
 }
+
+/* ----------------------------------------------------------------
+ *  CARD VARIANT THUMBNAILS — small square images per variant on
+ *  product cards (collection grids, featured-collection, etc.).
+ * ---------------------------------------------------------------- */
+.isaboko-card-variants {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  max-width: calc(4 * 64px + 3 * 8px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.isaboko-card-variants::-webkit-scrollbar {
+  display: none;
+}
+
+.isaboko-card-variants__thumb {
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: 2px solid transparent;
+  background: none;
+  cursor: pointer;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.isaboko-card-variants__thumb--active {
+  border-color: var(--isaboko-black);
+}
+
+.isaboko-card-variants__thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+

@@ -21,13 +21,13 @@ shopify theme pull     # Download theme files from a connected store
 shopify theme check    # Run theme-check linter
 ```
 
-No JS bundler, no formal test suite. Formatting via `.prettierrc.json` (Dawn defaults).
+No JS bundler, no formal test suite. Formatting via `.prettierrc.json` (Dawn defaults). `.theme-check.yml` disables `MatchingTranslations` and `TemplateLength` checks.
 
 ## Architecture
 
 ### Brand-override entry point
 
-[assets/isaboko.css](assets/isaboko.css) is the **single sanctioned place for brand overrides**. It's loaded after `base.css` from [layout/theme.liquid:259](layout/theme.liquid#L259) so its rules win on equal specificity. Do not edit `base.css` to apply brand changes — it would create merge pain if Dawn is ever updated. The file is sectioned to match DESIGN_SPEC.md (§2 colors, §3 typography, §5 buttons, §6 top bar, §7 header, §24 flat).
+[assets/isaboko.css](assets/isaboko.css) is the **single sanctioned place for brand overrides**. It's loaded after `base.css` from [layout/theme.liquid:259](layout/theme.liquid#L259) so its rules win on equal specificity. Do not edit `base.css` to apply brand changes — it would create merge pain if Dawn is ever updated. The file is organized by spec section: §2 colors, §3 typography, §5 buttons, §6 top bar, §7 header + mega menu, §24 flat, plus sections for each custom component (FOOTER, HERO, CATEGORY TILES, PATCH CLUB, PROCESS, LOOKBOOK, NEWSLETTER, PRODUCT TABS). Search for the `§` or all-caps section comment to jump to the right block.
 
 ### Two CSS-variable conventions (deliberate)
 
@@ -107,9 +107,31 @@ The merchant still controls editorial images via **Customize theme → Header �
 - `assets/` — CSS, JS, SVGs served as theme assets.
 - `locales/` — translation files. Storefront strings come from `*.json`; theme-editor strings from `*.schema.json` (referenced via `t:...` keys in section schemas).
 
+### Footer (custom section)
+
+[sections/isaboko-footer.liquid](sections/isaboko-footer.liquid) replaces Dawn's stock footer. Wired in [sections/footer-group.json](sections/footer-group.json). White background, 2px black top border, "ISABOKO" wordmark, 6-column nav grid, social icons, red bottom bar with copyright + currency. CSS lives in `isaboko.css` under "FOOTER". Dawn's `sections/footer.liquid` is left on disk but no longer referenced.
+
+### Homepage sections (custom)
+
+`templates/index.json` composes these Isaboko sections in order:
+
+| Section file | Purpose |
+|---|---|
+| `isaboko-hero.liquid` | Split-layout hero with image slideshow (left) + text/CTA (right). Vanilla JS for slide transitions. |
+| `featured-collection` | Dawn's built-in featured collection (scheme-2, dark background). |
+| `isaboko-category-tiles.liquid` | Category tile grid (NEW / BAGS / JACKETS / ACCESSORIES). Block-driven. |
+| `isaboko-patch-club.liquid` | Patch Club promo section with heading, description, CTA. |
+| `isaboko-process.liquid` | "What we do" mission section with description + CTA. |
+| `isaboko-lookbook.liquid` | Photo grid of past collections. Block-driven (each block = one photo tile with label + link). |
+| `isaboko-newsletter.liquid` | Lime full-width strip with Shopify customer email signup form. |
+
+### Product tabs (custom snippet)
+
+[snippets/isaboko-product-tabs.liquid](snippets/isaboko-product-tabs.liquid) replaces Dawn's collapsible accordions on the PDP. Four tabs: DETAILS / FABRIC / SIZING / CARE. Content pulled from product metafields with fallbacks. Expects `product` in scope.
+
 ## Build order (per spec §23)
 
-CSS vars + reset → top bar → **header/nav** → footer → homepage → product category → product detail → cart drawer → variations → world → fabric → patch club. Phases 1–3 (vars, top bar, header) are done. The next phases are footer and homepage.
+CSS vars + reset → top bar → **header/nav** → footer → homepage → product category → product detail → cart drawer → variations → world → fabric → patch club. Phases 1–6 (vars, top bar, header, footer, homepage, and product tabs) are done. The next phases are product category grid, full product detail page, and cart drawer.
 
 ## Conventions
 
@@ -117,7 +139,7 @@ CSS vars + reset → top bar → **header/nav** → footer → homepage → prod
 - **Component CSS files** — Many Dawn sections load their own `component-*.css` from `assets/`. When customizing a component, prefer overriding in `isaboko.css` over editing the component CSS in place.
 - **No new color tokens** — All theme work derives from the six brand colors in DESIGN_SPEC.md §2. If an off-shade is needed, use opacity on an existing token, not a new one.
 - **No rounded corners, no shadows** — Spec §24. Dawn's settings already drive radius/shadow values to 0 — don't reintroduce them in component styles.
-- **Dawn files modified for Isaboko**: `config/settings_data.json` (palette), `sections/header-group.json` (header config + topbar wiring), `layout/theme.liquid` (one `<link>` for isaboko.css), `sections/header.liquid` (renders `isaboko-mega-menu` snippet in the mega branch + adds `mega_menu_image` block type). `snippets/header-dropdown-menu.liquid` is pristine Dawn — don't customize it; override in CSS instead.
+- **Dawn files modified for Isaboko**: `config/settings_data.json` (palette), `sections/header-group.json` (header config + topbar wiring), `sections/footer-group.json` (swapped Dawn footer for `isaboko-footer`), `layout/theme.liquid` (one `<link>` for isaboko.css), `sections/header.liquid` (renders `isaboko-mega-menu` snippet in the mega branch + adds `mega_menu_image` block type). `snippets/header-dropdown-menu.liquid` is pristine Dawn — don't customize it; override in CSS instead.
 
 ## Locked user overrides (deviations from DESIGN_SPEC.md)
 

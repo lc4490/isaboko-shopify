@@ -287,6 +287,58 @@
               {% endif %}
             {%- endif -%}
           </div>
+          {%- unless card_product.has_only_default_variant -%}
+            {%- assign variant_img_count = 0 -%}
+            {%- for variant in card_product.variants -%}
+              {%- if variant.featured_image -%}
+                {%- assign variant_img_count = variant_img_count | plus: 1 -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if variant_img_count > 1 -%}
+              <div class="isaboko-card-variants">
+                {%- assign first_variant_thumb = true -%}
+                {%- for variant in card_product.variants -%}
+                  {%- if variant.featured_image -%}
+                    <button
+                      type="button"
+                      class="isaboko-card-variants__thumb{% if first_variant_thumb %} isaboko-card-variants__thumb--active{% endif %}"
+                      data-variant-image="{{ variant.featured_image | image_url: width: 720 }}"
+                      aria-label="{{ variant.title | escape }}"
+                    >
+                      <img
+                        src="{{ variant.featured_image | image_url: width: 100 }}"
+                        alt="{{ variant.featured_image.alt | default: variant.title | escape }}"
+                        width="70"
+                        height="70"
+                        loading="lazy"
+                      >
+                    </button>
+                    {%- assign first_variant_thumb = false -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+              <script>
+                if (!window.__isbokoCardVariants) {
+                  window.__isbokoCardVariants = true;
+                  document.addEventListener('mouseenter', function(e) {
+                    var thumb = e.target.closest('.isaboko-card-variants__thumb');
+                    if (!thumb) return;
+                    var card = thumb.closest('.card-wrapper');
+                    if (!card) return;
+                    var mainImg = card.querySelector('.card__media .media > img:first-of-type');
+                    if (mainImg) {
+                      mainImg.src = thumb.dataset.variantImage;
+                      mainImg.srcset = '';
+                    }
+                    card.querySelectorAll('.isaboko-card-variants__thumb').forEach(function(t) {
+                      t.classList.remove('isaboko-card-variants__thumb--active');
+                    });
+                    thumb.classList.add('isaboko-card-variants__thumb--active');
+                  }, true);
+                }
+              </script>
+            {%- endif -%}
+          {%- endunless -%}
         </div>
         {% assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id %}
         {% if quick_add == 'standard' %}
