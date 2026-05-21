@@ -1872,30 +1872,28 @@ h3,
   margin: 0;
 }
 
-/* Sold-out badge */
+/* Hide image badge overlay */
 .isaboko-collection-grid .card__badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  right: auto;
-  bottom: auto;
+  display: none;
 }
 
-.isaboko-collection-grid .card__badge .badge {
-  background: var(--isaboko-black);
-  color: var(--isaboko-white);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+/* Sold-out cards: hide price, show "SOLD OUT" in its place */
+.isaboko-collection-grid .card__inner:has(.card__badge .badge) + .card__content .price,
+.isaboko-collection-grid .card-wrapper:has(.card__badge .badge) .price {
+  visibility: hidden;
+  position: relative;
+  font-size: 0;
+}
+
+.isaboko-collection-grid .card__inner:has(.card__badge .badge) + .card__content .price::after,
+.isaboko-collection-grid .card-wrapper:has(.card__badge .badge) .price::after {
+  content: "OUT OF STOCK";
+  visibility: visible;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #999;
   text-transform: uppercase;
-  padding: 6px 14px;
-  border: none;
-  border-radius: 0;
-}
-
-/* Dim the image for sold-out products */
-.isaboko-collection-grid .card__inner:has(.card__badge .badge) .card__media {
-  opacity: 0.5;
 }
 
 /* Product card info: name + price on same row, variants below */
