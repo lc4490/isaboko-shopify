@@ -137,8 +137,29 @@
                     </ul>
                   {%- endif -%}
 
-                  {%- comment -%} Hardcoded promo images per dropdown (temporary placeholders — swap src later). {%- endcomment -%}
-                  {%- if handle == 'custom' -%}
+                  {%- comment -%} Hardcoded promo images per dropdown. {%- endcomment -%}
+                  {%- if handle == 'shop' -%}
+                    <ul class="isaboko-mega-menu__promos" role="list">
+                      <li class="isaboko-mega-menu__promo">
+                        <a href="/collections/jackets-and-coats" class="isaboko-mega-menu__promo-link">
+                          {%- assign jc_img = collections['jackets-and-coats'].products.first.featured_image -%}
+                          {%- if jc_img -%}
+                            {{ jc_img | image_url: width: 600 | image_tag: class: 'isaboko-mega-menu__promo-image', loading: 'lazy', widths: '240, 360, 480, 600', sizes: '240px' }}
+                          {%- endif -%}
+                          <span class="isaboko-mega-menu__promo-heading">JACKETS + COATS</span>
+                        </a>
+                      </li>
+                      <li class="isaboko-mega-menu__promo">
+                        <a href="/products/patch-club" class="isaboko-mega-menu__promo-link">
+                          {%- assign pc_img = all_products['patch-club'].featured_image -%}
+                          {%- if pc_img -%}
+                            {{ pc_img | image_url: width: 600 | image_tag: class: 'isaboko-mega-menu__promo-image', loading: 'lazy', widths: '240, 360, 480, 600', sizes: '240px' }}
+                          {%- endif -%}
+                          <span class="isaboko-mega-menu__promo-heading">PATCH CLUB</span>
+                        </a>
+                      </li>
+                    </ul>
+                  {%- elsif handle == 'custom' -%}
                     <ul class="isaboko-mega-menu__promos" role="list">
                       <li class="isaboko-mega-menu__promo">
                         <a href="/collections/made-to-order" class="isaboko-mega-menu__promo-link">
