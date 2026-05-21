@@ -2038,8 +2038,8 @@ h3,
     flex-direction: column !important;
     gap: 8px !important;
     grid-template-columns: none !important;
-    overflow-y: auto;
-    max-height: 650px;
+    overflow-y: visible;
+    max-height: none;
     padding: 0 !important;
     flex-wrap: nowrap !important;
   }
