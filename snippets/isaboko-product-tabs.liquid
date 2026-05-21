@@ -1,0 +1,295 @@
+{% comment %}
+  Isaboko product tabs — replaces Dawn's collapsible accordions.
+  4 tabs: DETAILS / FABRIC / SIZING / CARE.
+  Content is pulled from product metafields where available, with fallbacks.
+
+  Expects: product object in scope (from main-product section).
+{% endcomment %}
+
+<div class="isaboko-product-tabs" data-isaboko-tabs>
+  {%- comment -%} Tab navigation {%- endcomment -%}
+  <div class="isaboko-product-tabs__nav" role="tablist">
+    <button
+      class="isaboko-product-tabs__nav-btn"
+      role="tab"
+      id="tab-details"
+      aria-controls="panel-details"
+      aria-selected="true"
+    >Details</button>
+    <button
+      class="isaboko-product-tabs__nav-btn"
+      role="tab"
+      id="tab-fabric"
+      aria-controls="panel-fabric"
+      aria-selected="false"
+    >Fabric</button>
+    <button
+      class="isaboko-product-tabs__nav-btn"
+      role="tab"
+      id="tab-sizing"
+      aria-controls="panel-sizing"
+      aria-selected="false"
+    >Sizing</button>
+    <button
+      class="isaboko-product-tabs__nav-btn"
+      role="tab"
+      id="tab-care"
+      aria-controls="panel-care"
+      aria-selected="false"
+    >Care</button>
+  </div>
+
+  {%- comment -%} DETAILS panel {%- endcomment -%}
+  <div
+    class="isaboko-product-tabs__panel"
+    role="tabpanel"
+    id="panel-details"
+    aria-labelledby="tab-details"
+    aria-hidden="false"
+  >
+    {%- if product.description != blank -%}
+      {{ product.description }}
+    {%- else -%}
+      <p>No details available for this product.</p>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} FABRIC panel {%- endcomment -%}
+  <div
+    class="isaboko-product-tabs__panel"
+    role="tabpanel"
+    id="panel-fabric"
+    aria-labelledby="tab-fabric"
+    aria-hidden="true"
+  >
+    {%- assign fabric_meta = product.metafields.custom.fabric -%}
+    {%- if fabric_meta != blank -%}
+      {{ fabric_meta }}
+    {%- else -%}
+      <p>The outer shell is 100% cotton Indigo Shibori from a deconstructed Yukata that was made in the Late Sh&#333;wa Era (1945&ndash;1989).</p>
+      <p>The lining is 100% silk.</p>
+      <p>Kimonos are made of the most incredible fabrics in the world, yet they are piling up in thrift stores in Japan. We find damaged and discarded kimonos and deconstruct them back to their material base to be used in our pieces. Each kimono is unique, that is why our jackets are all one of one.</p>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} SIZING panel {%- endcomment -%}
+  <div
+    class="isaboko-product-tabs__panel"
+    role="tabpanel"
+    id="panel-sizing"
+    aria-labelledby="tab-sizing"
+    aria-hidden="true"
+  >
+    <div class="isaboko-sizing-subnav" role="tablist" aria-label="Sizing views">
+      <button
+        class="isaboko-sizing-subnav__btn"
+        role="tab"
+        id="subtab-chart"
+        aria-controls="subpanel-chart"
+        aria-selected="true"
+      >Sizing Chart</button>
+      <button
+        class="isaboko-sizing-subnav__btn"
+        role="tab"
+        id="subtab-wears"
+        aria-controls="subpanel-wears"
+        aria-selected="false"
+      >How it wears</button>
+    </div>
+
+    {%- comment -%} Sizing Chart sub-panel {%- endcomment -%}
+    <div
+      class="isaboko-sizing-subpanel"
+      role="tabpanel"
+      id="subpanel-chart"
+      aria-labelledby="subtab-chart"
+      aria-hidden="false"
+    >
+      <div class="isaboko-sizing-illustration">
+        {%- assign sizing_front = product.metafields.custom.sizing_front_image -%}
+        {%- assign sizing_back = product.metafields.custom.sizing_back_image -%}
+        {%- if sizing_front != blank -%}
+          {{ sizing_front | image_url: width: 400 | image_tag: loading: 'lazy', alt: 'Front measurements' }}
+        {%- endif -%}
+        {%- if sizing_back != blank -%}
+          {{ sizing_back | image_url: width: 400 | image_tag: loading: 'lazy', alt: 'Back measurements' }}
+        {%- endif -%}
+      </div>
+
+      <table class="isaboko-size-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>S</th>
+            <th>M</th>
+            <th>L</th>
+            <th>XL</th>
+            <th>XXL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Chest</td>
+            <td>42&quot;</td>
+            <td>48&quot;</td>
+            <td>54&quot;</td>
+            <td>60&quot;</td>
+            <td>66&quot;</td>
+          </tr>
+          <tr>
+            <td>Length</td>
+            <td>27&quot;</td>
+            <td>29&quot;</td>
+            <td>30&quot;</td>
+            <td>31.5&quot;</td>
+            <td>32.5&quot;</td>
+          </tr>
+          <tr>
+            <td>Sleeve</td>
+            <td>20&quot;</td>
+            <td>22&quot;</td>
+            <td>24&quot;</td>
+            <td>28&quot;</td>
+            <td>32&quot;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    {%- comment -%} How It Wears sub-panel {%- endcomment -%}
+    <div
+      class="isaboko-sizing-subpanel"
+      role="tabpanel"
+      id="subpanel-wears"
+      aria-labelledby="subtab-wears"
+      aria-hidden="true"
+    >
+      <div class="isaboko-sizing-illustration">
+        {%- if sizing_front != blank -%}
+          {{ sizing_front | image_url: width: 400 | image_tag: loading: 'lazy', alt: 'How it wears' }}
+        {%- endif -%}
+      </div>
+
+      <div class="isaboko-how-it-wears">
+        {%- for variant in product.variants -%}
+          <div class="isaboko-how-it-wears__item">
+            <div class="isaboko-how-it-wears__swatch"
+              {%- if variant.featured_image -%}
+                style="background-image: url('{{ variant.featured_image | image_url: width: 200 }}'); background-size: cover; background-position: center;"
+              {%- endif -%}
+            ></div>
+            <span class="isaboko-how-it-wears__label">{{ variant.title }}</span>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} CARE panel {%- endcomment -%}
+  <div
+    class="isaboko-product-tabs__panel"
+    role="tabpanel"
+    id="panel-care"
+    aria-labelledby="tab-care"
+    aria-hidden="true"
+  >
+    {%- assign care_meta = product.metafields.custom.care_instructions -%}
+    {%- if care_meta != blank -%}
+      {{ care_meta }}
+    {%- else -%}
+      <p>The fabrics used for this piece are historic in nature, and may have unique idiosyncrasies. We recommend spot cleaning, and air drying. Color may transfer. Isaboko is not liable for damage.</p>
+      <p>For centuries kimonos were washed only seasonally by specialists using a meticulous process. The garment was completely unstitched, sewn into a long roll, then hand-washed, pressed, and reassembled. This method preserved the textiles while allowing for subtle adjustments to extend the kimono's life.</p>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function () {
+    document.querySelectorAll('[data-isaboko-tabs]').forEach(function (tabContainer) {
+      // Main tabs
+      var mainNav = tabContainer.querySelector('.isaboko-product-tabs__nav');
+      if (mainNav) {
+        mainNav.addEventListener('click', function (e) {
+          var btn = e.target.closest('[role="tab"]');
+          if (!btn || btn.closest('.isaboko-sizing-subnav')) return;
+          mainNav.querySelectorAll('[role="tab"]').forEach(function (t) {
+            t.setAttribute('aria-selected', 'false');
+          });
+          btn.setAttribute('aria-selected', 'true');
+          tabContainer.querySelectorAll(':scope > .isaboko-product-tabs__panel').forEach(function (p) {
+            p.setAttribute('aria-hidden', 'true');
+          });
+          var panel = document.getElementById(btn.getAttribute('aria-controls'));
+          if (panel) panel.setAttribute('aria-hidden', 'false');
+        });
+      }
+
+      // Sizing sub-tabs
+      var subNav = tabContainer.querySelector('.isaboko-sizing-subnav');
+      if (subNav) {
+        subNav.addEventListener('click', function (e) {
+          var btn = e.target.closest('[role="tab"]');
+          if (!btn) return;
+          subNav.querySelectorAll('[role="tab"]').forEach(function (t) {
+            t.setAttribute('aria-selected', 'false');
+          });
+          btn.setAttribute('aria-selected', 'true');
+          var sizingPanel = document.getElementById('panel-sizing');
+          if (sizingPanel) {
+            sizingPanel.querySelectorAll('.isaboko-sizing-subpanel').forEach(function (p) {
+              p.setAttribute('aria-hidden', 'true');
+            });
+          }
+          var sub = document.getElementById(btn.getAttribute('aria-controls'));
+          if (sub) sub.setAttribute('aria-hidden', 'false');
+        });
+      }
+    });
+  })();
+
+  // Thumbnail hover-to-switch: hovering a thumbnail clicks it to change the main image.
+  document.querySelectorAll('.thumbnail-list__item .thumbnail').forEach(function (thumb) {
+    thumb.addEventListener('mouseenter', function () {
+      thumb.click();
+    });
+  });
+
+  // Main image prev/next arrows cycle through thumbnails.
+  (function () {
+    var gallery = document.querySelector('media-gallery');
+    if (!gallery) return;
+    var mainSlider = gallery.querySelector('slider-component:not(.thumbnail-slider)');
+    if (!mainSlider) return;
+    var prevBtn = mainSlider.querySelector('.slider-button--prev');
+    var nextBtn = mainSlider.querySelector('.slider-button--next');
+    var thumbs = gallery.querySelectorAll('.thumbnail-list__item .thumbnail');
+    if (!thumbs.length) return;
+
+    function getCurrentIndex() {
+      for (var i = 0; i < thumbs.length; i++) {
+        if (thumbs[i].getAttribute('aria-current') === 'true') return i;
+      }
+      return 0;
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var idx = getCurrentIndex();
+        var prev = idx > 0 ? idx - 1 : thumbs.length - 1;
+        thumbs[prev].click();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var idx = getCurrentIndex();
+        var next = idx < thumbs.length - 1 ? idx + 1 : 0;
+        thumbs[next].click();
+      });
+    }
+  })();
+</script>

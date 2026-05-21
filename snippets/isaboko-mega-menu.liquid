@@ -87,94 +87,112 @@
                       <li class="isaboko-mega-menu__column">
                         <a class="isaboko-mega-menu__column-heading" href="/collections/made-to-order">FEATURED</a>
                         <ul class="isaboko-mega-menu__sublist" role="list">
-                          <li><a class="isaboko-mega-menu__sublink" href="/pages/bridal">Bridal &amp; Events</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/bridal">Events &amp; Ceremonies</a></li>
                           <li><a class="isaboko-mega-menu__sublink" href="/pages/size-chart">Send in your Kimono</a></li>
                         </ul>
                       </li>
                       <li class="isaboko-mega-menu__column">
                         <a class="isaboko-mega-menu__column-heading" href="/collections/made-to-order">CUSTOMIZE</a>
                         <ul class="isaboko-mega-menu__sublist" role="list">
-                          <li><a class="isaboko-mega-menu__sublink" href="/collections/made-to-order">Made to Order</a></li>
-                          <li><a class="isaboko-mega-menu__sublink" href="/pages/zero-waste-patterns">Zero Waste Patterns</a></li>
-                          <li><a class="isaboko-mega-menu__sublink" href="/pages/bridal">Bridal</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/made-to-order">Make to order 1</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/made-to-order">Make to order 2</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/made-to-order">Make to order 3</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/made-to-order">Make to order 4</a></li>
                         </ul>
                       </li>
                     </ul>
                   {%- elsif handle == 'world' -%}
                     <ul class="isaboko-mega-menu__columns" role="list">
                       <li class="isaboko-mega-menu__column">
-                        <a class="isaboko-mega-menu__column-heading" href="/collections/archive">COLLECTIONS</a>
+                        <a class="isaboko-mega-menu__column-heading" href="/blogs/journal/our-mission">ABOUT</a>
                         <ul class="isaboko-mega-menu__sublist" role="list">
-                          <li><a class="isaboko-mega-menu__sublink" href="/pages/camp-isaboko-1">Camp Isaboko</a></li>
-                          <li><a class="isaboko-mega-menu__sublink" href="/pages/solarpunk-city">Prospect Park</a></li>
-                          <li><a class="isaboko-mega-menu__sublink" href="/pages/solarpunk-punk">Solarpunk City</a></li>
-                          <li><a class="isaboko-mega-menu__sublink" href="/pages/everything-bad-ive-ever-done">Everything Bad I've Ever Done</a></li>
-                          <li><a class="isaboko-mega-menu__sublink" href="/collections/archive">Archive</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/blogs/journal/our-mission">Meet the founder</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/guidebook-vol-1">Guidebook</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/blogs/journal/sustainability">Sustainability</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/blogs/journal">Journal</a></li>
                         </ul>
                       </li>
                       <li class="isaboko-mega-menu__column">
-                        <a class="isaboko-mega-menu__column-heading" href="/blogs/journal/our-mission">MISSION</a>
+                        <a class="isaboko-mega-menu__column-heading" href="/pages/isaboko-fam">COMMUNITY</a>
                         <ul class="isaboko-mega-menu__sublist" role="list">
-                          <li><a class="isaboko-mega-menu__sublink" href="/blogs/journal/our-mission">Our Mission</a></li>
-                          <li><a class="isaboko-mega-menu__sublink" href="/pages/guidebook-vol-1">Guidebook Vol. 1</a></li>
-                          <li><a class="isaboko-mega-menu__sublink" href="/blogs/journal/sustainability">Sustainability FAQ</a></li>
-                          <li><a class="isaboko-mega-menu__sublink" href="/blogs/journal">Journal</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/isaboko-fam">Isaboko Fam</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/products/patch-club">Patch Club</a></li>
+                        </ul>
+                      </li>
+                      <li class="isaboko-mega-menu__column">
+                        <a class="isaboko-mega-menu__column-heading" href="/collections/archive">ARCHIVE</a>
+                        <ul class="isaboko-mega-menu__sublist" role="list">
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/archive">Lookbook</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/collections/archive">Collections</a></li>
                         </ul>
                       </li>
                       <li class="isaboko-mega-menu__column">
                         <a class="isaboko-mega-menu__column-heading" href="/pages/contact">CUSTOMER CARE</a>
                         <ul class="isaboko-mega-menu__sublist" role="list">
                           <li><a class="isaboko-mega-menu__sublink" href="/pages/contact">Contact</a></li>
-                          <li><a class="isaboko-mega-menu__sublink" href="/pages/garment-care">Garment Care</a></li>
-                          <li><a class="isaboko-mega-menu__sublink" href="/pages/shipping-returns-repairs">Shipping, Returns, Repairs</a></li>
-                          <li><a class="isaboko-mega-menu__sublink" href="/pages/size-chart">Size Guide</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/faq">FAQs</a></li>
+                          <li><a class="isaboko-mega-menu__sublink" href="/pages/shipping-returns-repairs">Shipping &amp; Returns</a></li>
                         </ul>
                       </li>
                     </ul>
                   {%- endif -%}
 
-                  {%- comment -%} Editorial image slots from section blocks (rendered alongside hardcoded columns when present). {%- endcomment -%}
-                  {%- assign promos = section.blocks | where: 'type', 'mega_menu_image' -%}
-                  {%- assign has_promos = false -%}
-                  {%- for block in promos -%}
-                    {%- if block.settings.parent_link_handle == handle -%}
-                      {%- assign has_promos = true -%}
-                      {%- break -%}
-                    {%- endif -%}
-                  {%- endfor -%}
-
-                  {%- if has_promos -%}
+                  {%- comment -%} Hardcoded promo images per dropdown (temporary placeholders — swap src later). {%- endcomment -%}
+                  {%- if handle == 'custom' -%}
                     <ul class="isaboko-mega-menu__promos" role="list">
-                      {%- for block in promos -%}
-                        {%- if block.settings.parent_link_handle == handle -%}
-                          <li class="isaboko-mega-menu__promo" {{ block.shopify_attributes }}>
-                            <a href="{{ block.settings.link | default: '#' }}" class="isaboko-mega-menu__promo-link">
-                              {%- if block.settings.image != blank -%}
-                                {{ block.settings.image | image_url: width: 600 | image_tag:
-                                  class: 'isaboko-mega-menu__promo-image',
-                                  loading: 'lazy',
-                                  widths: '200, 300, 400, 600',
-                                  sizes: '(min-width: 990px) 240px, 50vw'
-                                }}
-                              {%- endif -%}
-                              {%- if block.settings.heading != blank -%}
-                                <span class="isaboko-mega-menu__promo-heading">{{ block.settings.heading | escape }}</span>
-                              {%- endif -%}
-                            </a>
-                          </li>
-                        {%- endif -%}
-                      {%- endfor -%}
+                      <li class="isaboko-mega-menu__promo">
+                        <a href="/collections/made-to-order" class="isaboko-mega-menu__promo-link">
+                          {%- assign mto_img = collections['made-to-order'].products.first.featured_image -%}
+                          {%- if mto_img -%}
+                            {{ mto_img | image_url: width: 480 | image_tag: class: 'isaboko-mega-menu__promo-image', loading: 'lazy', widths: '160, 240, 320, 480', sizes: '160px' }}
+                          {%- endif -%}
+                          <span class="isaboko-mega-menu__promo-heading">MAKE TO ORDER JACKET</span>
+                        </a>
+                      </li>
+                      <li class="isaboko-mega-menu__promo">
+                        <a href="/pages/bridal" class="isaboko-mega-menu__promo-link">
+                          {%- assign bridal_img = collections['bridal'].products.first.featured_image -%}
+                          {%- unless bridal_img -%}
+                            {%- assign bridal_img = collections['made-to-order'].products[1].featured_image -%}
+                          {%- endunless -%}
+                          {%- unless bridal_img -%}
+                            {%- assign bridal_img = collections['all'].products[1].featured_image -%}
+                          {%- endunless -%}
+                          {%- if bridal_img -%}
+                            {{ bridal_img | image_url: width: 480 | image_tag: class: 'isaboko-mega-menu__promo-image', loading: 'lazy', widths: '200, 300, 400, 480', sizes: '200px' }}
+                          {%- endif -%}
+                          <span class="isaboko-mega-menu__promo-heading">EVENTS &amp; CEREMONIES</span>
+                        </a>
+                      </li>
+                      <li class="isaboko-mega-menu__promo">
+                        <a href="/pages/size-chart" class="isaboko-mega-menu__promo-link">
+                          <img src="{{ 'IMG_9067.jpg' | file_img_url: '480x480', crop: 'center' }}" alt="Send in your kimono" class="isaboko-mega-menu__promo-image" loading="lazy" width="200" height="200">
+                          <span class="isaboko-mega-menu__promo-heading">SEND IN YOUR KIMONO</span>
+                        </a>
+                      </li>
+                    </ul>
+                  {%- elsif handle == 'world' -%}
+                    <ul class="isaboko-mega-menu__promos" role="list">
+                      <li class="isaboko-mega-menu__promo">
+                        <a href="/blogs/journal/our-mission" class="isaboko-mega-menu__promo-link">
+                          {%- assign pc_img = all_products['patch-club'].featured_image -%}
+                          {%- if pc_img -%}
+                            {{ pc_img | image_url: width: 480 | image_tag: class: 'isaboko-mega-menu__promo-image', loading: 'lazy', widths: '200, 300, 400, 480', sizes: '200px' }}
+                          {%- endif -%}
+                          <span class="isaboko-mega-menu__promo-heading">MEET THE FOUNDER</span>
+                        </a>
+                      </li>
+                      <li class="isaboko-mega-menu__promo">
+                        <a href="/pages/isaboko-fam" class="isaboko-mega-menu__promo-link">
+                          {%- assign journal_img = blogs['journal'].articles.first.image -%}
+                          {%- if journal_img -%}
+                            {{ journal_img | image_url: width: 480 | image_tag: class: 'isaboko-mega-menu__promo-image', loading: 'lazy', widths: '200, 300, 400, 480', sizes: '200px' }}
+                          {%- endif -%}
+                          <span class="isaboko-mega-menu__promo-heading">ISABOKO FAM</span>
+                        </a>
+                      </li>
                     </ul>
                   {%- endif -%}
-
-                  {%- comment -%}
-                    All three dropdown handles (shop / custom / world) now have hardcoded columns
-                    (2026-05-18). Placeholder retained as defensive fallback if a future dropdown
-                    handle is added to nav_handles without matching hardcoded content.
-                  {%- endcomment -%}
-                  {%- unless handle == 'shop' or handle == 'custom' or handle == 'world' or has_promos -%}
-                    <p class="isaboko-mega-menu__placeholder">{{ title }} dropdown — categories coming next.</p>
-                  {%- endunless -%}
 
                 </div>
               </div>

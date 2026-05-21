@@ -278,6 +278,10 @@ h3,
   break-inside: avoid;
 }
 
+#Details-HeaderMenu-custom .isaboko-mega-menu__columns {
+  grid-template-columns: repeat(2, max-content);
+}
+
 .isaboko-mega-menu__column-heading {
   display: block;
   font-size: 14px;
@@ -285,7 +289,7 @@ h3,
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--isaboko-black);
-  margin: 0 0 20px;
+  margin: 0 0 10px;
   text-decoration: none;
   transition: color var(--isaboko-transition);
 }
@@ -342,7 +346,7 @@ h3,
 }
 
 .isaboko-mega-menu__promo {
-  width: 240px;
+  width: 200px;
 }
 
 .isaboko-mega-menu__promo-link {
@@ -355,7 +359,7 @@ h3,
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
 }
 
@@ -1688,5 +1692,366 @@ h3,
 
   .isaboko-category-tiles__grid {
     gap: 2px;
+  }
+}
+
+/* ----------------------------------------------------------------
+ *  PRODUCT PAGE — gallery + tabbed info per Figma 2026-05-20.
+ * ---------------------------------------------------------------- */
+
+/* --- Gallery: vertical thumbnails on the left, main image right --- */
+@media screen and (min-width: 990px) {
+  /* media-gallery is the flex container holding the main viewer + thumbnail strip */
+  .product--thumbnail media-gallery {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  /* Thumbnail strip goes first (left) */
+  .product--thumbnail media-gallery > .thumbnail-slider {
+    order: -1;
+    flex-shrink: 0;
+    width: 90px;
+    overflow: hidden;
+  }
+
+  /* Hide prev/next buttons on the thumbnail strip */
+  .product--thumbnail .thumbnail-slider > .slider-button {
+    display: none !important;
+  }
+
+  .product--thumbnail .thumbnail-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    grid-template-columns: none !important;
+    overflow-y: auto;
+    max-height: 650px;
+    padding: 0 !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .product--thumbnail .thumbnail-list__item,
+  .product--thumbnail .thumbnail-list__item.slider__slide {
+    width: 100% !important;
+    min-width: 0 !important;
+    flex-shrink: 0;
+  }
+
+  .product--thumbnail .thumbnail-list__item .thumbnail {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 0;
+    border: 2px solid transparent;
+    overflow: hidden;
+  }
+
+  .product--thumbnail .thumbnail-list__item .thumbnail[aria-current="true"] {
+    border-color: var(--isaboko-black);
+  }
+
+  .product--thumbnail .thumbnail-list__item .thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Main image viewer fills remaining space */
+  .product--thumbnail media-gallery > slider-component:not(.thumbnail-slider) {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Force the main image list to fill its container */
+  .product--thumbnail media-gallery > slider-component:not(.thumbnail-slider) .product__media-list {
+    width: 100%;
+    padding: 0;
+  }
+
+  .product--thumbnail media-gallery > slider-component:not(.thumbnail-slider) .product__media-item {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .product--thumbnail media-gallery > slider-component:not(.thumbnail-slider) .product__media-item img,
+  .product--thumbnail media-gallery > slider-component:not(.thumbnail-slider) .product__media-item .media {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Prev / Next arrows on main image */
+  .product--thumbnail media-gallery > slider-component:not(.thumbnail-slider) > .slider-buttons {
+    display: flex !important;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    justify-content: space-between;
+    padding: 0 12px;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .product--thumbnail media-gallery > slider-component:not(.thumbnail-slider) .slider-button {
+    pointer-events: auto;
+    background: rgba(255,255,255,0.85);
+    border: none;
+    width: 40px;
+    height: 40px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .product--thumbnail media-gallery > slider-component:not(.thumbnail-slider) .slider-counter {
+    display: none !important;
+  }
+}
+
+/* --- Tabbed product info --- */
+.isaboko-product-tabs {
+  margin-top: 24px;
+  border-top: 1px solid var(--isaboko-black);
+}
+
+.isaboko-product-tabs__nav {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid #e0e0e0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.isaboko-product-tabs__nav-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 14px 8px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--isaboko-gray);
+  cursor: pointer;
+  position: relative;
+  font-family: var(--font-body-family);
+  transition: color var(--isaboko-transition);
+}
+
+.isaboko-product-tabs__nav-btn[aria-selected="true"] {
+  color: var(--isaboko-black);
+}
+
+.isaboko-product-tabs__nav-btn[aria-selected="true"]::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 2px;
+  background: var(--isaboko-black);
+}
+
+.isaboko-product-tabs__panel {
+  display: none;
+  padding: 24px 0;
+}
+
+.isaboko-product-tabs__panel[aria-hidden="false"] {
+  display: block;
+}
+
+.isaboko-product-tabs__panel p {
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0 0 12px;
+}
+
+.isaboko-product-tabs__panel p:last-child {
+  margin-bottom: 0;
+}
+
+/* Fabric row */
+.isaboko-fabric-row {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.isaboko-fabric-row__item {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--isaboko-black);
+}
+
+/* --- Sizing sub-tabs --- */
+.isaboko-sizing-subnav {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.isaboko-sizing-subnav__btn {
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--isaboko-gray);
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--font-body-family);
+}
+
+.isaboko-sizing-subnav__btn[aria-selected="true"] {
+  color: var(--isaboko-black);
+}
+
+.isaboko-sizing-subnav__btn:not(:last-child)::after {
+  content: '|';
+  margin-left: 16px;
+  color: #ccc;
+  font-weight: 400;
+}
+
+.isaboko-sizing-subpanel {
+  display: none;
+}
+
+.isaboko-sizing-subpanel[aria-hidden="false"] {
+  display: block;
+}
+
+/* Sizing illustration */
+.isaboko-sizing-illustration {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 24px;
+}
+
+.isaboko-sizing-illustration img {
+  max-height: 200px;
+  width: auto;
+}
+
+/* Sizing table */
+.isaboko-size-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  text-align: center;
+}
+
+.isaboko-size-table th,
+.isaboko-size-table td {
+  padding: 12px 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.isaboko-size-table th {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 13px;
+}
+
+.isaboko-size-table td:first-child,
+.isaboko-size-table th:first-child {
+  text-align: left;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.isaboko-size-table thead th {
+  border-bottom: 1px solid var(--isaboko-black);
+}
+
+/* How it wears — swatch grid */
+.isaboko-how-it-wears {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.isaboko-how-it-wears__item {
+  text-align: center;
+}
+
+.isaboko-how-it-wears__swatch {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #ccc;
+  margin-bottom: 8px;
+}
+
+.isaboko-how-it-wears__label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+/* Product info overrides */
+.product__description.rte {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* Hide Dawn's collapsible rows, duplicate description, and "view details" link
+ * when the Isaboko tabs are present on the product page. */
+.product__info-container .product__accordion.accordion {
+  display: none;
+}
+
+.product__info-container .product__description.rte {
+  display: none;
+}
+
+.product__info-container .product__view-details {
+  display: none;
+}
+
+/* Product title */
+.product__title h1 {
+  font-size: 24px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Product price */
+.price--large .price-item {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 989px) {
+  .isaboko-product-tabs__nav-btn {
+    font-size: 11px;
+    padding: 12px 4px 10px;
+  }
+
+  .isaboko-fabric-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .isaboko-sizing-illustration {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
   }
 }
