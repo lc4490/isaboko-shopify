@@ -771,10 +771,11 @@ h3,
   padding-right: 0 !important;
 }
 
-/* Thin gap between cards */
+/* Thin gap between cards, centered */
 .isaboko-hero-section + .section .product-grid {
   column-gap: 3px;
   row-gap: 0;
+  justify-content: center;
 }
 
 /* Reposition slider arrows to overlay on product images */
@@ -848,9 +849,22 @@ h3,
   color: var(--isaboko-black);
 }
 
-/* Remove bottom padding */
+/* Remove all bottom spacing from trending section and gap before category tiles */
 .isaboko-hero-section + .section .collection {
   padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.isaboko-hero-section + .section .collection__view-all {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 0;
+  overflow: visible;
+}
+
+.isaboko-hero-section + .section {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 /* Remove View All underline (Figma shows clean link) */
@@ -869,12 +883,18 @@ h3,
  * ---------------------------------------------------------------- */
 .isaboko-categories {
   width: 100%;
+  margin-top: -20px;
+  position: relative;
+  z-index: 1;
+  border-top: 2px solid var(--isaboko-black);
+  border-bottom: 2px solid var(--isaboko-black);
 }
 
 .isaboko-categories__grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0;
+  gap: 2px;
+  background: var(--isaboko-black);
 }
 
 @media (min-width: 750px) {
@@ -1041,7 +1061,7 @@ h3,
  * ---------------------------------------------------------------- */
 .isaboko-patch-club {
   background: var(--isaboko-white);
-  border-top: 1px solid var(--isaboko-black);
+  border-bottom: 2px solid var(--isaboko-black);
 }
 
 .isaboko-patch-club__inner {
@@ -1057,6 +1077,7 @@ h3,
 
 .isaboko-patch-club__text {
   flex: 1 1 50%;
+  border-right: 2px solid var(--isaboko-black);
   padding: 60px 40px;
   display: flex;
   flex-direction: column;
@@ -1138,10 +1159,9 @@ h3,
 .isaboko-process {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0;
+  gap: 2px;
   align-items: stretch;
-  background: var(--isaboko-white);
-  border-top: 1px solid var(--isaboko-black);
+  background: var(--isaboko-black);
 }
 
 @media (min-width: 990px) {
@@ -1185,6 +1205,7 @@ h3,
   justify-content: flex-start;
   align-items: flex-start;
   padding: 60px 40px;
+  background: var(--isaboko-white);
 }
 
 @media (min-width: 990px) {
