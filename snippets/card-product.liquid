@@ -31,10 +31,22 @@
 {%- if card_product and card_product != empty -%}
   {%- liquid
     assign ratio = 1
-    if card_product.featured_media and media_aspect_ratio == 'portrait'
+    assign card_media = card_product.featured_media
+    assign card_title = card_product.title
+    assign card_url = card_product.url
+    if card_variant
+      if card_variant.featured_image
+        assign card_media = card_variant.featured_image
+      endif
+      unless card_product.has_only_default_variant
+        assign card_title = card_product.title | append: ' - ' | append: card_variant.title
+        assign card_url = card_product.url | append: '?variant=' | append: card_variant.id
+      endunless
+    endif
+    if card_media and media_aspect_ratio == 'portrait'
       assign ratio = 0.8
-    elsif card_product.featured_media and media_aspect_ratio == 'adapt'
-      assign ratio = card_product.featured_media.aspect_ratio
+    elsif card_media and media_aspect_ratio == 'adapt'
+      assign ratio = card_media.aspect_ratio
     endif
     if ratio == 0 or ratio == null
       assign ratio = 1
@@ -44,65 +56,44 @@
     <div
       class="
         card card--{{ settings.card_style }}
-        {% if card_product.featured_media %} card--media{% else %} card--text{% endif %}
+        {% if card_media %} card--media{% else %} card--text{% endif %}
         {% if settings.card_style == 'card' %} color-{{ settings.card_color_scheme }} gradient{% endif %}
         {% if image_shape and image_shape != 'default' %} card--shape{% endif %}
         {% if extend_height %} card--extend-height{% endif %}
-        {% if card_product.featured_media == nil and settings.card_style == 'card' %} ratio{% endif %}
+        {% if card_media == nil and settings.card_style == 'card' %} ratio{% endif %}
         {% if horizontal_class %} card--horizontal{% endif %}
       "
       style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
     >
       <div
-        class="card__inner {% if settings.card_style == 'standard' %}color-{{ settings.card_color_scheme }} gradient{% endif %}{% if card_product.featured_media or settings.card_style == 'standard' %} ratio{% endif %}"
+        class="card__inner {% if settings.card_style == 'standard' %}color-{{ settings.card_color_scheme }} gradient{% endif %}{% if card_media or settings.card_style == 'standard' %} ratio{% endif %}"
         style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
       >
-        {%- if card_product.featured_media -%}
+        {%- if card_media -%}
           <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}">
             <div class="media media--transparent media--hover-effect">
               {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
               <img
                 srcset="
-                  {%- if card_product.featured_media.width >= 165 -%}{{ card_product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
-                  {%- if card_product.featured_media.width >= 360 -%}{{ card_product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}
-                  {%- if card_product.featured_media.width >= 533 -%}{{ card_product.featured_media | image_url: width: 533 }} 533w,{%- endif -%}
-                  {%- if card_product.featured_media.width >= 720 -%}{{ card_product.featured_media | image_url: width: 720 }} 720w,{%- endif -%}
-                  {%- if card_product.featured_media.width >= 940 -%}{{ card_product.featured_media | image_url: width: 940 }} 940w,{%- endif -%}
-                  {%- if card_product.featured_media.width >= 1066 -%}{{ card_product.featured_media | image_url: width: 1066 }} 1066w,{%- endif -%}
-                  {{ card_product.featured_media | image_url }} {{ card_product.featured_media.width }}w
+                  {%- if card_media.width >= 165 -%}{{ card_media | image_url: width: 165 }} 165w,{%- endif -%}
+                  {%- if card_media.width >= 360 -%}{{ card_media | image_url: width: 360 }} 360w,{%- endif -%}
+                  {%- if card_media.width >= 533 -%}{{ card_media | image_url: width: 533 }} 533w,{%- endif -%}
+                  {%- if card_media.width >= 720 -%}{{ card_media | image_url: width: 720 }} 720w,{%- endif -%}
+                  {%- if card_media.width >= 940 -%}{{ card_media | image_url: width: 940 }} 940w,{%- endif -%}
+                  {%- if card_media.width >= 1066 -%}{{ card_media | image_url: width: 1066 }} 1066w,{%- endif -%}
+                  {{ card_media | image_url }} {{ card_media.width }}w
                 "
-                src="{{ card_product.featured_media | image_url: width: 533 }}"
+                src="{{ card_media | image_url: width: 533 }}"
                 sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
-                alt="{{ card_product.featured_media.alt | escape }}"
+                alt="{{ card_media.alt | escape }}"
                 class="motion-reduce"
                 {% unless lazy_load == false %}
                   loading="lazy"
                 {% endunless %}
-                width="{{ card_product.featured_media.width }}"
-                height="{{ card_product.featured_media.height }}"
+                width="{{ card_media.width }}"
+                height="{{ card_media.height }}"
               >
               {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
-
-              {%- if card_product.media[1] != null and show_secondary_image -%}
-                <img
-                  srcset="
-                    {%- if card_product.media[1].width >= 165 -%}{{ card_product.media[1] | image_url: width: 165 }} 165w,{%- endif -%}
-                    {%- if card_product.media[1].width >= 360 -%}{{ card_product.media[1] | image_url: width: 360 }} 360w,{%- endif -%}
-                    {%- if card_product.media[1].width >= 533 -%}{{ card_product.media[1] | image_url: width: 533 }} 533w,{%- endif -%}
-                    {%- if card_product.media[1].width >= 720 -%}{{ card_product.media[1] | image_url: width: 720 }} 720w,{%- endif -%}
-                    {%- if card_product.media[1].width >= 940 -%}{{ card_product.media[1] | image_url: width: 940 }} 940w,{%- endif -%}
-                    {%- if card_product.media[1].width >= 1066 -%}{{ card_product.media[1] | image_url: width: 1066 }} 1066w,{%- endif -%}
-                    {{ card_product.media[1] | image_url }} {{ card_product.media[1].width }}w
-                  "
-                  src="{{ card_product.media[1] | image_url: width: 533 }}"
-                  sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
-                  alt="{{ card_product.media[1].alt | escape }}"
-                  class="motion-reduce"
-                  loading="lazy"
-                  width="{{ card_product.media[1].width }}"
-                  height="{{ card_product.media[1].height }}"
-                >
-              {%- endif -%}
             </div>
           </div>
         {%- endif -%}
@@ -110,29 +101,31 @@
           <div class="card__information">
             <h3
               class="card__heading"
-              {% if card_product.featured_media == null and settings.card_style == 'standard' %}
+              {% if card_media == null and settings.card_style == 'standard' %}
                 id="title-{{ section_id }}-{{ card_product.id }}"
               {% endif %}
             >
               <a
-                href="{{ card_product.url }}"
+                href="{{ card_url }}"
                 id="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }}"
                 class="full-unstyled-link"
                 aria-labelledby="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }} NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
               >
-                {{ card_product.title | escape }}
+                {{ card_title | escape }}
               </a>
             </h3>
           </div>
           <div class="card__badge {{ settings.badge_position }}">
-            {%- if card_product.available == false -%}
+            {%- assign card_available = card_product.available -%}
+            {%- if card_variant -%}{%- assign card_available = card_variant.available -%}{%- endif -%}
+            {%- if card_available == false -%}
               <span
                 id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
                 class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
               >
                 {{- 'products.product.sold_out' | t -}}
               </span>
-            {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
+            {%- elsif card_product.compare_at_price > card_product.price and card_available -%}
               <span
                 id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
                 class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
@@ -146,18 +139,18 @@
       <div class="card__content">
         <div class="card__information">
           <h3
-            class="card__heading{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}"
-            {% if card_product.featured_media or settings.card_style == 'card' %}
+            class="card__heading{% if card_media or settings.card_style == 'standard' %} h5{% endif %}"
+            {% if card_media or settings.card_style == 'card' %}
               id="title-{{ section_id }}-{{ card_product.id }}"
             {% endif %}
           >
             <a
-              href="{{ card_product.url }}"
+              href="{{ card_url }}"
               id="CardLink-{{ section_id }}-{{ card_product.id }}"
               class="full-unstyled-link"
               aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }} Badge-{{ section_id }}-{{ card_product.id }}"
             >
-              {{ card_product.title | escape }}
+              {{ card_title | escape }}
             </a>
           </h3>
           <div class="card-information">
@@ -287,58 +280,6 @@
               {% endif %}
             {%- endif -%}
           </div>
-          {%- unless card_product.has_only_default_variant -%}
-            {%- assign variant_img_count = 0 -%}
-            {%- for variant in card_product.variants -%}
-              {%- if variant.featured_image -%}
-                {%- assign variant_img_count = variant_img_count | plus: 1 -%}
-              {%- endif -%}
-            {%- endfor -%}
-            {%- if variant_img_count > 1 -%}
-              <div class="isaboko-card-variants">
-                {%- assign first_variant_thumb = true -%}
-                {%- for variant in card_product.variants -%}
-                  {%- if variant.featured_image -%}
-                    <button
-                      type="button"
-                      class="isaboko-card-variants__thumb{% if first_variant_thumb %} isaboko-card-variants__thumb--active{% endif %}"
-                      data-variant-image="{{ variant.featured_image | image_url: width: 720 }}"
-                      aria-label="{{ variant.title | escape }}"
-                    >
-                      <img
-                        src="{{ variant.featured_image | image_url: width: 100 }}"
-                        alt="{{ variant.featured_image.alt | default: variant.title | escape }}"
-                        width="70"
-                        height="70"
-                        loading="lazy"
-                      >
-                    </button>
-                    {%- assign first_variant_thumb = false -%}
-                  {%- endif -%}
-                {%- endfor -%}
-              </div>
-              <script>
-                if (!window.__isbokoCardVariants) {
-                  window.__isbokoCardVariants = true;
-                  document.addEventListener('mouseenter', function(e) {
-                    var thumb = e.target.closest('.isaboko-card-variants__thumb');
-                    if (!thumb) return;
-                    var card = thumb.closest('.card-wrapper');
-                    if (!card) return;
-                    var mainImg = card.querySelector('.card__media .media > img:first-of-type');
-                    if (mainImg) {
-                      mainImg.src = thumb.dataset.variantImage;
-                      mainImg.srcset = '';
-                    }
-                    card.querySelectorAll('.isaboko-card-variants__thumb').forEach(function(t) {
-                      t.classList.remove('isaboko-card-variants__thumb--active');
-                    });
-                    thumb.classList.add('isaboko-card-variants__thumb--active');
-                  }, true);
-                }
-              </script>
-            {%- endif -%}
-          {%- endunless -%}
         </div>
         {% assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id %}
         {% if quick_add == 'standard' %}
@@ -601,14 +542,16 @@
           {% endif %}
         {% endif %}
         <div class="card__badge {{ settings.badge_position }}">
-          {%- if card_product.available == false -%}
+          {%- assign card_available = card_product.available -%}
+          {%- if card_variant -%}{%- assign card_available = card_variant.available -%}{%- endif -%}
+          {%- if card_available == false -%}
             <span
               id="Badge-{{ section_id }}-{{ card_product.id }}"
               class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
             >
               {{- 'products.product.sold_out' | t -}}
             </span>
-          {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
+          {%- elsif card_product.compare_at_price > card_product.price and card_available -%}
             <span
               id="Badge-{{ section_id }}-{{ card_product.id }}"
               class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"

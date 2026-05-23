@@ -1,5 +1,7 @@
 {% comment %}
-  Renders product variant-picker
+  Renders product variant-picker — Isaboko design.
+  Non-size options render as horizontal scrolling variant images ("VARIATIONS").
+  Size options render as flat pill buttons ("SIZE").
 
   Accepts:
   - product: {Object} product object.
@@ -16,74 +18,121 @@
   >
     {%- for option in product.options_with_values -%}
       {%- liquid
-        assign swatch_count = option.values | map: 'swatch' | compact | size
-        assign picker_type = block.settings.picker_type
-
-        if swatch_count > 0 and block.settings.swatch_shape != 'none'
-          if block.settings.picker_type == 'dropdown'
-            assign picker_type = 'swatch_dropdown'
-          else
-            assign picker_type = 'swatch'
-          endif
+        assign option_name_lower = option.name | downcase
+        assign is_size = false
+        if option_name_lower == 'size' or option_name_lower == 'taille' or option_name_lower == 'talla'
+          assign is_size = true
         endif
       -%}
-      {%- if picker_type == 'swatch' -%}
-        <fieldset class="js product-form__input product-form__input--swatch">
-          <legend class="form__label">
-            {{ option.name }}:
-            <span data-selected-value>
-              {{- option.selected_value -}}
-            </span>
-          </legend>
-          {% render 'product-variant-options',
-            product: product,
-            option: option,
-            block: block,
-            picker_type: picker_type
-          %}
-        </fieldset>
-      {%- elsif picker_type == 'button' -%}
-        <fieldset class="js product-form__input product-form__input--pill">
-          <legend class="form__label">{{ option.name }}</legend>
-          {% render 'product-variant-options',
-            product: product,
-            option: option,
-            block: block,
-            picker_type: picker_type
-          %}
-        </fieldset>
-      {%- else -%}
-        <div class="product-form__input product-form__input--dropdown">
-          <label class="form__label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
-            {{ option.name }}
-          </label>
-          <div class="select">
-            {%- if picker_type == 'swatch_dropdown' -%}
-              <span
-                data-selected-value
-                class="dropdown-swatch"
-              >
-                {% render 'swatch', swatch: option.selected_value.swatch, shape: block.settings.swatch_shape %}
-              </span>
-            {%- endif -%}
-            <select
-              id="Option-{{ section.id }}-{{ forloop.index0 }}"
-              class="select__select"
-              name="options[{{ option.name | escape }}]"
-              form="{{ product_form_id }}"
-            >
-              {% render 'product-variant-options',
-                product: product,
-                option: option,
-                block: block,
-                picker_type: picker_type
-              %}
-            </select>
-            <span class="svg-wrapper">
-              {{- 'icon-caret.svg' | inline_asset_content -}}
-            </span>
+
+      {%- if is_size -%}
+        {%- comment -%} SIZE — flat pill buttons {%- endcomment -%}
+        <fieldset class="js product-form__input isaboko-sizes">
+          <div class="isaboko-option-header">
+            <span class="isaboko-option-header__label">{{ option.name | upcase }} <span class="isaboko-info-icon" title="Size information">&#9432;</span></span>
+            <a href="#" class="isaboko-option-header__action">SIZE GUIDE</a>
           </div>
-        </div>
+          <div class="isaboko-sizes__options">
+            {%- for value in option.values -%}
+              {%- liquid
+                assign option_disabled = true
+                if value.available
+                  assign option_disabled = false
+                endif
+              -%}
+              {%- capture input_id -%}{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}{%- endcapture -%}
+              <input
+                type="radio"
+                id="{{ input_id }}"
+                name="{{ option.name }}-{{ option.position }}"
+                value="{{ value | escape }}"
+                form="{{ product_form_id }}"
+                {% if value.selected %}checked{% endif %}
+                {% if option_disabled %}class="disabled"{% endif %}
+                data-product-url="{{ value.product_url }}"
+                data-option-value-id="{{ value.id }}"
+              >
+              <label for="{{ input_id }}" class="isaboko-sizes__btn{% if option_disabled %} isaboko-sizes__btn--unavailable{% endif %}">
+                {{ value -}}
+                <span class="visually-hidden label-unavailable">
+                  {{- 'products.product.variant_sold_out_or_unavailable' | t -}}
+                </span>
+              </label>
+            {%- endfor -%}
+          </div>
+        </fieldset>
+
+      {%- else -%}
+        {%- comment -%} VARIATIONS — horizontal scrolling variant images {%- endcomment -%}
+        <fieldset class="js product-form__input isaboko-variations">
+          <div class="isaboko-option-header">
+            <span class="isaboko-option-header__label">VARIATIONS <span class="isaboko-info-icon" title="Variation information">&#9432;</span></span>
+            <a href="#" class="isaboko-option-header__action">VIEW ALL</a>
+          </div>
+          <div class="isaboko-variations__scroll">
+            {%- for value in option.values -%}
+              {%- liquid
+                assign option_disabled = true
+                if value.available
+                  assign option_disabled = false
+                endif
+
+                assign variant_image = nil
+                for variant in product.variants
+                  case option.position
+                    when 1
+                      if variant.option1 == value and variant.featured_image
+                        assign variant_image = variant.featured_image
+                        break
+                      endif
+                    when 2
+                      if variant.option2 == value and variant.featured_image
+                        assign variant_image = variant.featured_image
+                        break
+                      endif
+                    when 3
+                      if variant.option3 == value and variant.featured_image
+                        assign variant_image = variant.featured_image
+                        break
+                      endif
+                  endcase
+                endfor
+
+                if variant_image == nil
+                  assign variant_image = product.featured_image
+                endif
+              -%}
+              {%- capture input_id -%}{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}{%- endcapture -%}
+              <input
+                type="radio"
+                id="{{ input_id }}"
+                name="{{ option.name }}-{{ option.position }}"
+                value="{{ value | escape }}"
+                form="{{ product_form_id }}"
+                {% if value.selected %}checked{% endif %}
+                {% if option_disabled %}class="disabled"{% endif %}
+                data-product-url="{{ value.product_url }}"
+                data-option-value-id="{{ value.id }}"
+              >
+              <label for="{{ input_id }}" class="isaboko-variations__item{% if option_disabled %} isaboko-variations__item--unavailable{% endif %}">
+                {%- if variant_image -%}
+                  {{ variant_image | image_url: width: 240 | image_tag:
+                    class: 'isaboko-variations__img',
+                    loading: 'lazy',
+                    widths: '120, 180, 240',
+                    sizes: '120px'
+                  }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'isaboko-variations__placeholder' }}
+                {%- endif -%}
+                <span class="visually-hidden">{{ value | escape }}</span>
+                <span class="visually-hidden label-unavailable">
+                  {{- 'products.product.variant_sold_out_or_unavailable' | t -}}
+                </span>
+              </label>
+            {%- endfor -%}
+          </div>
+        </fieldset>
       {%- endif -%}
     {%- endfor -%}
 
@@ -91,4 +140,75 @@
       {{ product.selected_or_first_available_variant | json }}
     </script>
   </variant-selects>
+
+  {%- liquid
+    assign isaboko_size_pos = 0
+    assign isaboko_var_pos = 0
+    for option in product.options_with_values
+      assign opt_lower = option.name | downcase
+      if opt_lower == 'size' or opt_lower == 'taille' or opt_lower == 'talla'
+        assign isaboko_size_pos = option.position
+      else
+        if isaboko_var_pos == 0
+          assign isaboko_var_pos = option.position
+        endif
+      endif
+    endfor
+  -%}
+
+  {%- if isaboko_size_pos > 0 and isaboko_var_pos > 0 -%}
+    <script>
+      (function () {
+        // Attach to product-info — it persists across Dawn's viewTransition
+        // swaps that replace variant-selects on each option change.
+        var host = document.querySelector('product-info');
+        if (!host) return;
+
+        var variants = {{ product.variants | json }};
+        var sizePos = {{ isaboko_size_pos }};
+        var varPos = {{ isaboko_var_pos }};
+
+        // Capture phase — fires BEFORE Dawn's bubble-phase listener on
+        // variant-selects, so selectedOptionValues already reflects the
+        // corrected variation when Dawn reads it.
+        host.addEventListener('change', function (e) {
+          var input = e.target;
+          if (input.type !== 'radio') return;
+          if (!input.closest('.isaboko-sizes')) return;
+
+          var container = input.closest('variant-selects');
+          if (!container) return;
+
+          var newSize = input.value;
+          var varFieldset = container.querySelector('.isaboko-variations');
+          if (!varFieldset) return;
+
+          var checkedVar = varFieldset.querySelector('input[type="radio"]:checked');
+          if (!checkedVar) return;
+
+          var comboAvailable = variants.some(function (v) {
+            return v['option' + sizePos] === newSize
+              && v['option' + varPos] === checkedVar.value
+              && v.available;
+          });
+
+          if (!comboAvailable) {
+            var fallback = variants.find(function (v) {
+              return v['option' + sizePos] === newSize && v.available;
+            });
+            if (fallback) {
+              var targetVal = fallback['option' + varPos];
+              var radios = varFieldset.querySelectorAll('input[type="radio"]');
+              for (var i = 0; i < radios.length; i++) {
+                if (radios[i].value === targetVal) {
+                  radios[i].checked = true;
+                  break;
+                }
+              }
+            }
+          }
+        }, true);
+      })();
+    </script>
+  {%- endif -%}
 {%- endunless -%}

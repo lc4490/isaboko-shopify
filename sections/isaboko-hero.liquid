@@ -18,6 +18,7 @@
           data-slide-index="{{ forloop.index0 }}"
           {{ block.shopify_attributes }}
         >
+          {%- assign hero_fallback_product = nil -%}
           {%- if block.settings.image != blank -%}
             {{ block.settings.image | image_url: width: 1800 | image_tag:
               class: 'isaboko-hero__slide-img',
@@ -26,7 +27,8 @@
               sizes: '(min-width: 990px) 67vw, 100vw'
             }}
           {%- else -%}
-            {%- assign hero_fallback = collections['zatsuyo-jacket'].products[forloop.index0].featured_image -%}
+            {%- assign hero_fallback_product = collections['new'].products[forloop.index0] -%}
+            {%- assign hero_fallback = hero_fallback_product.variants.first.featured_image | default: hero_fallback_product.featured_image -%}
             {%- if hero_fallback != blank -%}
               {{ hero_fallback | image_url: width: 1800 | image_tag:
                 class: 'isaboko-hero__slide-img',
@@ -40,7 +42,9 @@
           {%- endif -%}
 
           <div class="isaboko-hero__slide-overlay">
-            {%- if block.settings.heading != blank -%}
+            {%- if hero_fallback_product != nil -%}
+              <h2 class="isaboko-hero__slide-heading">{{ hero_fallback_product.title | escape }}</h2>
+            {%- elsif block.settings.heading != blank -%}
               <h2 class="isaboko-hero__slide-heading">{{ block.settings.heading | escape }}</h2>
             {%- endif -%}
             {%- if block.settings.description != blank -%}
@@ -87,7 +91,8 @@
           sizes: '(min-width: 990px) 30vw, 100vw'
         }}
       {%- else -%}
-        {%- assign detail_fallback = collections['all'].products[11].featured_image -%}
+        {%- assign detail_fallback_product = collections['new'].products[1] | default: collections['new'].products.first -%}
+        {%- assign detail_fallback = detail_fallback_product.variants.first.featured_image | default: detail_fallback_product.featured_image -%}
         {%- if detail_fallback != blank -%}
           {{ detail_fallback | image_url: width: 800 | image_tag:
             class: 'isaboko-hero__detail-img',

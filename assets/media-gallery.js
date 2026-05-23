@@ -56,6 +56,8 @@ if (!customElements.get('media-gallery')) {
           if (!this.mql.matches || this.elements.thumbnails) {
             activeMedia.parentElement.scrollTo({ left: activeMedia.offsetLeft });
           }
+          // Skip page scroll for thumbnail layout — image is already in view
+          if (this.dataset.desktopLayout?.includes('thumbnail') && this.mql.matches) return;
           const activeMediaRect = activeMedia.getBoundingClientRect();
           // Don't scroll if the image is already in view
           if (activeMediaRect.top > -0.5) return;

@@ -3,25 +3,17 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
-          "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
-          }
-        },
         "title": {
           "type": "title"
         },
-        "caption": {
-          "type": "text",
-          "settings": {
-            "text": "{{ product.metafields.descriptors.subtitle.value }}",
-            "text_style": "subtitle"
-          }
-        },
         "price": {
           "type": "price"
+        },
+        "icon_badges": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "<div class=\"isaboko-badges\">\n  <div class=\"isaboko-badges__item\">\n    <svg class=\"isaboko-badges__icon\" width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M20 6L22.5 14H31L24.5 19L27 27L20 22L13 27L15.5 19L9 14H17.5L20 6Z\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\"/><rect x=\"12\" y=\"28\" width=\"16\" height=\"6\" rx=\"1\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\"/></svg>\n    <span class=\"isaboko-badges__text\">One-of-one</span>\n  </div>\n  <div class=\"isaboko-badges__item\">\n    <svg class=\"isaboko-badges__icon\" width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"20\" cy=\"18\" r=\"8\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\"/><path d=\"M16 26c0 4 2 8 4 8s4-4 4-8\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\"/><path d=\"M12 18h16\" stroke=\"currentColor\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/></svg>\n    <span class=\"isaboko-badges__text\">{{ product.metafields.descriptors.subtitle.value | default: 'Premium fabric' }}</span>\n  </div>\n  <div class=\"isaboko-badges__item\">\n    <svg class=\"isaboko-badges__icon\" width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M10 30V14l10-6 10 6v16\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\"/><path d=\"M16 30v-8h8v8\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\"/><circle cx=\"20\" cy=\"12\" r=\"1.5\" fill=\"currentColor\"/></svg>\n    <span class=\"isaboko-badges__text\">{{ product.metafields.custom.origin | default: 'Made in Taiwan' }}</span>\n  </div>\n</div>"
+          }
         },
         "variant_picker": {
           "type": "variant_picker",
@@ -38,67 +30,15 @@
             "show_dynamic_checkout": true,
             "show_gift_card_recipient": true
           }
-        },
-        "description": {
-          "type": "description"
-        },
-        "collapsible-row-0": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Materials",
-            "icon": "leather",
-            "content": "",
-            "page": ""
-          }
-        },
-        "collapsible-row-1": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Shipping & Returns",
-            "icon": "truck",
-            "content": "",
-            "page": ""
-          }
-        },
-        "collapsible-row-2": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Dimensions",
-            "icon": "ruler",
-            "content": "",
-            "page": ""
-          }
-        },
-        "collapsible-row-3": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Care Instructions",
-            "icon": "heart",
-            "content": "",
-            "page": ""
-          }
-        },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Share"
-          }
         }
       },
       "block_order": [
-        "vendor",
         "title",
-        "caption",
         "price",
+        "icon_badges",
         "variant_picker",
         "quantity_selector",
-        "buy_buttons",
-        "description",
-        "collapsible-row-0",
-        "collapsible-row-1",
-        "collapsible-row-2",
-        "collapsible-row-3",
-        "share"
+        "buy_buttons"
       ],
       "settings": {
         "enable_sticky_info": true,
@@ -108,24 +48,24 @@
         "mobile_thumbnails": "show",
         "hide_variants": true,
         "enable_video_looping": false,
-        "padding_top": 36,
+        "padding_top": 0,
         "padding_bottom": 12
       }
     },
     "related-products": {
       "type": "related-products",
       "settings": {
-        "heading": "You may also like",
+        "heading": "YOU MAY ALSO LIKE",
         "heading_size": "h2",
         "columns_desktop": 4,
         "color_scheme": "scheme-1",
-        "image_ratio": "square",
+        "image_ratio": "portrait",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
         "columns_mobile": "2",
-        "padding_top": 36,
-        "padding_bottom": 28
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     }
   },

@@ -3,6 +3,7 @@
   Visual styles live in assets/isaboko.css under "CATEGORY TILES".
 {%- endcomment -%}
 
+{%- assign used_tile_images = '' -%}
 <div class="isaboko-categories">
   <div class="isaboko-categories__grid">
     {%- for block in section.blocks -%}
@@ -21,11 +22,21 @@
                 widths: '600, 800, 1000, 1200',
                 sizes: '(min-width: 750px) 50vw, 100vw'
           }}
+          {%- assign used_tile_images = used_tile_images | append: '|' | append: block.settings.image.src -%}
         {%- else -%}
-          {%- comment -%} Pull fallback image from the collection each tile links to {%- endcomment -%}
+          {%- comment -%} Pull fallback image from the collection, skipping any already used {%- endcomment -%}
           {%- assign tile_handles = "new,bags,jackets-and-coats,accessories" | split: "," -%}
           {%- assign tile_handle = tile_handles[forloop.index0] -%}
-          {%- assign tile_fallback = collections[tile_handle].products[0].featured_image -%}
+          {%- assign tile_fallback = blank -%}
+          {%- for product in collections[tile_handle].products -%}
+            {%- if tile_fallback != blank -%}{%- continue -%}{%- endif -%}
+            {%- assign candidate = product.featured_image -%}
+            {%- if candidate == blank -%}{%- continue -%}{%- endif -%}
+            {%- assign candidate_src = candidate | image_url: width: 1200 -%}
+            {%- if used_tile_images contains candidate_src -%}{%- continue -%}{%- endif -%}
+            {%- assign tile_fallback = candidate -%}
+            {%- assign used_tile_images = used_tile_images | append: '|' | append: candidate_src -%}
+          {%- endfor -%}
           {%- if tile_fallback != blank -%}
             {{ tile_fallback | image_url: width: 1200 | image_tag:
               class: 'isaboko-categories__img',
